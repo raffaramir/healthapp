@@ -108,9 +108,26 @@ WSGI_APPLICATION = 'healthapp.wsgi.application'
 ASGI_APPLICATION = 'healthapp.asgi.application'
 
 # DATABASE
-# DB_ENGINE = sqlite (default), postgres, or mysql.
+# Priority: DATABASE_URL (Render/Heroku style) > DB_ENGINE env > SQLite default.
+_database_url = os.environ.get('DATABASE_URL', '').strip()
 _db_engine = os.environ.get('DB_ENGINE', 'sqlite').lower()
-if _db_engine in ('postgres', 'postgresql'):
+if _database_url:
+    # Parse postgres://user:pass@host:port/dbname (Render injects this for managed Postgres).
+    from urllib.parse import urlparse, unquote
+    _u = urlparse(_database_url)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': _u.path.lstrip('/'),
+            'USER': unquote(_u.username or ''),
+            'PASSWORD': unquote(_u.password or ''),
+            'HOST': _u.hostname or 'localhost',
+            'PORT': str(_u.port or 5432),
+            'CONN_MAX_AGE': 600,
+            'OPTIONS': {'sslmode': 'require'} if 'sslmode=disable' not in (_u.query or '') else {},
+        }
+    }
+elif _db_engine in ('postgres', 'postgresql'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',

@@ -1,0 +1,39 @@
+# Render Blueprint — provisions the web service + Postgres database.
+# Render will read this file when you connect the GitHub repo as a Blueprint.
+# https://render.com/docs/blueprint-spec
+
+databases:
+  - name: healthapp-db
+    databaseName: healthapp
+    user: healthapp
+    plan: free          # 90 days free, then $7/mo. Upgrade or migrate to keep data.
+
+services:
+  - type: web
+    name: healthapp
+    runtime: python
+    plan: free          # sleeps after 15 min idle; ~50s cold start
+    region: frankfurt   # change to oregon / ohio / singapore as desired
+    branch: main
+    rootDir: healthapp  # path inside the repo where manage.py lives
+    buildCommand: "bash deploy/render/build.sh"
+    startCommand: "daphne -b 0.0.0.0 -p $PORT healthapp.asgi:application"
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true   # Render generates a strong random string once
+      - key: DJANGO_ALLOWED_HOSTS
+        value: "healthapp.onrender.com"   # update if you change service name
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        value: "https://healthapp.onrender.com"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: healthapp-db
+          property: connectionString
