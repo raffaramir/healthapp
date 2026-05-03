@@ -17,7 +17,8 @@ services:
     branch: main
     rootDir: healthapp  # path inside the repo where manage.py lives
     buildCommand: "bash deploy/render/build.sh"
-    startCommand: "daphne -b 0.0.0.0 -p $PORT healthapp.asgi:application"
+    # Migrations run at start (idempotent) because the DB is unreachable at build time on free plan.
+    startCommand: "python manage.py migrate --noinput && daphne -b 0.0.0.0 -p $PORT healthapp.asgi:application"
     healthCheckPath: /
     autoDeploy: true
     envVars:
