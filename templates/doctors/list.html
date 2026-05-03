@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Find a Doctor{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Find a Doctor</h1>
+    <p class="page-subtitle">Verified medical professionals available in your area.</p>
+  </div>
+</div>
+
+<div class="glass" style="padding:18px;">
+  <form method="get" class="flex gap-2">
+    <input type="search" name="specialty" value="{{ specialty }}" placeholder="Filter by specialty (e.g. Cardiology)" class="form-input" style="flex:1;">
+    <button class="btn btn-primary">Search</button>
+  </form>
+</div>
+
+<div class="service-grid" data-stagger>
+  {% for d in doctors %}
+    <a href="{% url 'doctors:detail' d.pk %}" class="service-card">
+      <div class="avatar" style="width:56px;height:56px;font-size:22px;margin-bottom:14px;">
+        {% if d.user.profile_image %}<img src="{{ d.user.profile_image.url }}">{% else %}{{ d.user.display_name|slice:":1"|upper }}{% endif %}
+      </div>
+      <h3>Dr. {{ d.user.display_name }}</h3>
+      <p>{{ d.specialty }}</p>
+      <div class="flex gap-1 mt-2">
+        <span class="badge badge-primary">{{ d.years_of_experience }}+ yrs</span>
+        {% if d.rating_count %}<span class="badge badge-success">★ {{ d.rating_avg }}</span>{% endif %}
+      </div>
+      {% if d.home_visit_fee %}
+        <div class="gradient-text mt-2" style="font-weight:700;">${{ d.home_visit_fee }} home visit</div>
+      {% endif %}
+      <span class="arrow">→</span>
+    </a>
+  {% empty %}
+    <div class="empty" style="grid-column:1/-1;"><div class="ico">👨‍⚕️</div><p>No doctors match your search.</p></div>
+  {% endfor %}
+</div>
+{% endblock %}

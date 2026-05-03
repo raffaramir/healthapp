@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEALTHAPP â€” Admin Dashboard Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/main.css">
+</head>
+<body data-authenticated="true">
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">H</div>
+      <div><div class="name">HEALTHAPP</div><div class="tag">Administration</div></div>
+    </div>
+    <a class="nav-link active" href="#"><span class="icon">ًںڈ </span> Dashboard</a>
+    <div class="nav-section">Administration</div>
+    <a class="nav-link" href="#"><span class="icon">ًں‘¥</span> Users</a>
+    <a class="nav-link" href="#"><span class="icon">âڈ³</span> Pending Approvals <span class="badge badge-warning" style="margin-left:auto;">4</span></a>
+    <a class="nav-link" href="#"><span class="icon">ًں“‹</span> All Requests</a>
+    <a class="nav-link" href="#"><span class="icon">ًں“œ</span> Activity Logs</a>
+    <a class="nav-link" href="#"><span class="icon">âڑ™ï¸ڈ</span> Django Admin</a>
+    <div class="nav-section">Communication</div>
+    <a class="nav-link" href="#"><span class="icon">ًں’¬</span> Messages</a>
+    <a class="nav-link" href="#"><span class="icon">ًں””</span> Notifications</a>
+    <div class="nav-section">Account</div>
+    <a class="nav-link" href="#"><span class="icon">ًں‘¤</span> My Profile</a>
+    <a class="nav-link" href="#"><span class="icon">ًںڑھ</span> Sign out</a>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="flex items-center gap-2">
+        <button class="icon-btn menu-toggle" data-action="toggle-sidebar">âک°</button>
+        <div class="search"><span>ًں”چ</span><input type="search" placeholder="Search users, requestsâ€¦" /></div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" data-action="toggle-theme">ًںŒ“</button>
+        <button class="icon-btn">ًں””<span class="badge">7</span></button>
+        <div class="avatar">A</div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title"><span class="gradient-text">Administration</span></h1>
+          <p class="page-subtitle">Platform-wide insights and controls. Today: May 2, 2026</p>
+        </div>
+        <div class="flex gap-2">
+          <a href="#" class="btn btn-primary">Review approvals (4)</a>
+          <a href="#" class="btn btn-secondary">Activity logs</a>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-grid" data-stagger>
+        <div class="stat-card"><div class="icon-circle">ًں§‘</div><div class="label">Patients</div><div class="value">128</div><div class="delta">â†‘ 8 this week</div></div>
+        <div class="stat-card"><div class="icon-circle">ًں‘¨â€چâڑ•ï¸ڈ</div><div class="label">Doctors</div><div class="value">34</div><div class="delta">â†‘ 2 new</div></div>
+        <div class="stat-card"><div class="icon-circle">ًں§ھ</div><div class="label">Lab Techs</div><div class="value">12</div><div class="delta">Stable</div></div>
+        <div class="stat-card"><div class="icon-circle">ًں’ٹ</div><div class="label">Pharmacists</div><div class="value">9</div><div class="delta">Stable</div></div>
+        <div class="stat-card gradient"><div class="icon-circle" style="background:rgba(0,0,0,.15);">ًں“‹</div><div class="label">Total Requests</div><div class="value">842</div><div class="delta">All time</div></div>
+        <div class="stat-card"><div class="icon-circle">âڈ³</div><div class="label">Open</div><div class="value">23</div><div class="delta">Pending + Active</div></div>
+        <div class="stat-card"><div class="icon-circle">ًں“…</div><div class="label">Today</div><div class="value">14</div><div class="delta">New requests</div></div>
+        <div class="stat-card"><div class="icon-circle">ًں—“</div><div class="label">Last 7 days</div><div class="value">89</div><div class="delta">â†‘ 18% vs prior week</div></div>
+      </div>
+
+      <!-- CHART + BREAKDOWN -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;">
+        <div class="glass" style="padding:24px;">
+          <h3>Daily requests (last 7 days)</h3>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:180px;padding:14px 0 0;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+              <div style="flex:1;display:flex;align-items:end;width:100%;"><div style="width:100%;height:52%;background:var(--gradient-primary);border-radius:6px 6px 0 0;box-shadow:var(--glow-primary);"></div></div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--text);">9</div>
+              <div class="text-muted" style="font-size:.72rem;">Thu</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+              <div style="flex:1;display:flex;align-items:end;width:100%;"><div style="width:100%;height:65%;background:var(--gradient-primary);border-radius:6px 6px 0 0;box-shadow:var(--glow-primary);"></div></div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--text);">11</div>
+              <div class="text-muted" style="font-size:.72rem;">Fri</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+              <div style="flex:1;display:flex;align-items:end;width:100%;"><div style="width:100%;height:35%;background:var(--gradient-primary);border-radius:6px 6px 0 0;box-shadow:var(--glow-primary);"></div></div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--text);">6</div>
+              <div class="text-muted" style="font-size:.72rem;">Sat</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+              <div style="flex:1;display:flex;align-items:end;width:100%;"><div style="width:100%;height:25%;background:var(--gradient-primary);border-radius:6px 6px 0 0;box-shadow:var(--glow-primary);"></div></div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--text);">4</div>
+              <div class="text-muted" style="font-size:.72rem;">Sun</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+              <div style="flex:1;display:flex;align-items:end;width:100%;"><div style="width:100%;height:70%;background:var(--gradient-primary);border-radius:6px 6px 0 0;box-shadow:var(--glow-primary);"></div></div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--text);">12</div>
+              <div class="text-muted" style="font-size:.72rem;">Mon</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+              <div style="flex:1;display:flex;align-items:end;width:100%;"><div style="width:100%;height:78%;background:var(--gradient-primary);border-radius:6px 6px 0 0;box-shadow:var(--glow-primary);"></div></div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--text);">13</div>
+              <div class="text-muted" style="font-size:.72rem;">Tue</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+              <div style="flex:1;display:flex;align-items:end;width:100%;"><div style="width:100%;height:85%;background:var(--gradient-accent);border-radius:6px 6px 0 0;box-shadow:var(--glow-accent);"></div></div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--accent);">14</div>
+              <div class="text-muted" style="font-size:.72rem;">Wed</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass" style="padding:24px;">
+          <h3>By service type</h3>
+          <div class="flex flex-col gap-2 mt-2">
+            <div style="padding:12px;border-radius:10px;background:var(--surface-strong);display:flex;justify-content:space-between;">
+              <span>Doctor at home</span><strong class="gradient-text">287</strong>
+            </div>
+            <div style="padding:12px;border-radius:10px;background:var(--surface-strong);display:flex;justify-content:space-between;">
+              <span>Pharmacy order</span><strong class="gradient-text">251</strong>
+            </div>
+            <div style="padding:12px;border-radius:10px;background:var(--surface-strong);display:flex;justify-content:space-between;">
+              <span>Online consult</span><strong class="gradient-text">198</strong>
+            </div>
+            <div style="padding:12px;border-radius:10px;background:var(--surface-strong);display:flex;justify-content:space-between;">
+              <span>Lab at home</span><strong class="gradient-text">106</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PENDING APPROVALS + LOGS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="glass" style="padding:24px;">
+          <div class="flex justify-between items-center mb-3">
+            <h3 style="margin:0;">Pending approvals</h3>
+            <a href="#" class="text-muted" style="font-size:.85rem;">All â†’</a>
+          </div>
+          <div class="flex flex-col gap-2">
+            <div style="padding:12px;border-radius:10px;background:var(--surface-strong);display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <strong>Claire Dubois</strong>
+                <div class="text-muted" style="font-size:.82rem;">claire@example.com آ· Doctor</div>
+              </div>
+              <button class="btn btn-accent btn-sm">Approve</button>
+            </div>
+            <div style="padding:12px;border-radius:10px;background:var(--surface-strong);display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <strong>Karim Mansouri</strong>
+                <div class="text-muted" style="font-size:.82rem;">karim@example.com آ· Lab Tech</div>
+              </div>
+              <button class="btn btn-accent btn-sm">Approve</button>
+            </div>
+            <div style="padding:12px;border-radius:10px;background:var(--surface-strong);display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <strong>Sara El Mansouri</strong>
+                <div class="text-muted" style="font-size:.82rem;">sara@example.com آ· Patient</div>
+              </div>
+              <button class="btn btn-accent btn-sm">Approve</button>
+            </div>
+            <div style="padding:12px;border-radius:10px;background:var(--surface-strong);display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <strong>Ahmed Benlakhal</strong>
+                <div class="text-muted" style="font-size:.82rem;">ahmed@example.com آ· Pharmacist</div>
+              </div>
+              <button class="btn btn-accent btn-sm">Approve</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass" style="padding:24px;">
+          <h3>Recent activity</h3>
+          <div class="flex flex-col gap-1 mt-2">
+            <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;">
+              <span style="font-size:.88rem;"><strong>admin</strong> آ· approve_user</span>
+              <span class="text-muted" style="font-size:.78rem;">2 min ago</span>
+            </div>
+            <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;">
+              <span style="font-size:.88rem;"><strong>dr.smith</strong> آ· login</span>
+              <span class="text-muted" style="font-size:.78rem;">7 min ago</span>
+            </div>
+            <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;">
+              <span style="font-size:.88rem;"><strong>patient1</strong> آ· register</span>
+              <span class="text-muted" style="font-size:.78rem;">15 min ago</span>
+            </div>
+            <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;">
+              <span style="font-size:.88rem;"><strong>lab.central</strong> آ· login</span>
+              <span class="text-muted" style="font-size:.78rem;">22 min ago</span>
+            </div>
+            <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;">
+              <span style="font-size:.88rem;"><strong>patient3</strong> آ· request created</span>
+              <span class="text-muted" style="font-size:.78rem;">34 min ago</span>
+            </div>
+            <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;">
+              <span style="font-size:.88rem;"><strong>dr.chen</strong> آ· accept request</span>
+              <span class="text-muted" style="font-size:.78rem;">1 hr ago</span>
+            </div>
+            <div style="padding:9px 0;display:flex;justify-content:space-between;">
+              <span style="font-size:.88rem;"><strong>pharma.medplus</strong> آ· complete request</span>
+              <span class="text-muted" style="font-size:.78rem;">2 hr ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../static/js/main.js"></script>
+</body>
+</html>

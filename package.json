@@ -1,0 +1,14 @@
+{
+  "name": "healthapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HEALTHAPP — Tailwind build pipeline for the Django frontend.",
+  "scripts": {
+    "build:css": "tailwindcss -i ./static/css/tailwind.input.css -o ./static/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./static/css/tailwind.input.css -o ./static/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.13",
+    "tailwindcss-rtl": "^0.9.0"
+  }
+}

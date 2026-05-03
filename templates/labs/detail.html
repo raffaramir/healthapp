@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}{{ lab.lab_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <a href="{% url 'labs:list' %}" class="text-muted" style="font-size:.85rem;">← All labs</a>
+    <h1 class="page-title mt-1">{{ lab.lab_name }}</h1>
+    <p class="page-subtitle">{{ lab.user.display_name }} · Lab Technician</p>
+  </div>
+  <div class="flex gap-2">
+    <a href="{% url 'chat:start' lab.user.pk %}" class="btn btn-secondary">💬 Message</a>
+    <a href="{% url 'services:request_create' 'lab_home' %}" class="btn btn-primary">Book home visit</a>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;">
+  <div class="glass" style="padding:28px;text-align:center;">
+    <div class="ico" style="width:80px;height:80px;border-radius:20px;background:var(--gradient-accent);color:#FFFFFF;display:grid;place-items:center;font-size:36px;margin:0 auto 16px;box-shadow:var(--glow-accent);">🧪</div>
+    <h2>{{ lab.lab_name }}</h2>
+    <p class="text-muted">{{ lab.user.display_name }}</p>
+    <span class="badge badge-primary">License: {{ lab.license_number }}</span>
+    {% if lab.rating_count %}
+      <div class="mt-2"><span class="badge badge-success">★ {{ lab.rating_avg }} ({{ lab.rating_count }} reviews)</span></div>
+    {% endif %}
+    <div class="divider"></div>
+    <div>
+      <div class="text-muted" style="font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;">Home Visit Fee</div>
+      <div class="text-accent" style="font-size:1.6rem;font-weight:800;">${{ lab.home_visit_fee }}</div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    <div class="glass" style="padding:24px;">
+      <h3>Services Offered</h3>
+      {% if lab.services_offered %}
+        <div class="flex gap-2 mt-2" style="flex-wrap:wrap;">
+          {% for svc in lab.services_offered.split %}
+            <span class="badge badge-primary">{{ svc }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">Contact to inquire about available tests.</p>
+      {% endif %}
+    </div>
+
+    <div class="glass" style="padding:24px;">
+      <h3>How it works</h3>
+      <div class="flex flex-col gap-3 mt-2">
+        <div class="flex gap-3 items-center">
+          <div class="ico" style="width:40px;height:40px;border-radius:12px;background:var(--gradient-primary);color:#FFFFFF;display:grid;place-items:center;flex-shrink:0;">1</div>
+          <div><strong>Book your visit</strong><div class="text-muted" style="font-size:.85rem;">Submit a lab home visit request with your preferred date and time.</div></div>
+        </div>
+        <div class="flex gap-3 items-center">
+          <div class="ico" style="width:40px;height:40px;border-radius:12px;background:var(--gradient-primary);color:#FFFFFF;display:grid;place-items:center;flex-shrink:0;">2</div>
+          <div><strong>Technician arrives</strong><div class="text-muted" style="font-size:.85rem;">The lab technician comes to your address for sample collection.</div></div>
+        </div>
+        <div class="flex gap-3 items-center">
+          <div class="ico" style="width:40px;height:40px;border-radius:12px;background:var(--gradient-accent);color:#FFFFFF;display:grid;place-items:center;flex-shrink:0;">3</div>
+          <div><strong>Receive results</strong><div class="text-muted" style="font-size:.85rem;">Results are uploaded to your medical records on the platform.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

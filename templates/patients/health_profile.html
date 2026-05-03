@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Health Profile{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Health Profile</h1>
+    <p class="page-subtitle">Critical info for your care providers.</p>
+  </div>
+</div>
+
+<div class="stat-grid">
+  <div class="stat-card"><div class="icon-circle">🎂</div><div class="label">Age</div><div class="value">{{ profile.age }}</div></div>
+  <div class="stat-card"><div class="icon-circle">🩸</div><div class="label">Blood Group</div><div class="value">{{ profile.get_blood_group_display }}</div></div>
+  <div class="stat-card"><div class="icon-circle">📍</div><div class="label">Born in</div><div class="value" style="font-size:1.2rem;">{{ profile.place_of_birth }}</div></div>
+</div>
+
+<div class="glass" style="padding:32px;max-width:780px;">
+  <form method="post">{% csrf_token %}
+    <div class="form-grid">
+      {% for field in form %}
+        <div class="form-group" style="grid-column:{% if field.name in 'allergies,chronic_conditions' %}1 / -1{% else %}auto{% endif %};">
+          <label>{{ field.label }}</label>{{ field }}
+          {% for err in field.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    <button class="btn btn-primary mt-2">Save</button>
+  </form>
+</div>
+{% endblock %}

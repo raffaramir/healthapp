@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Chat with {{ other.display_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <a href="{% url 'chat:conversation_list' %}" class="text-muted" style="font-size:.85rem;">← All conversations</a>
+    <h1 class="page-title mt-1">Chat with {{ other.display_name }}</h1>
+    <p class="page-subtitle">{{ other.get_role_display }}</p>
+  </div>
+</div>
+
+<div class="glass" style="display:flex;flex-direction:column;height:calc(100vh - 220px);">
+  <div class="chat-header">
+    <div class="avatar">{% if other.profile_image %}<img src="{{ other.profile_image.url }}">{% else %}{{ other.display_name|slice:":1"|upper }}{% endif %}</div>
+    <div>
+      <strong>{{ other.display_name }}</strong>
+      <div class="text-muted" style="font-size:.82rem;">{{ other.get_role_display }} · <span class="text-accent">● Online</span></div>
+    </div>
+  </div>
+
+  <div class="chat-msgs" id="chat-msgs"
+       data-conversation-id="{{ conversation.pk }}"
+       data-user-id="{{ user.pk }}">
+    {% for m in messages_list %}
+      <div class="chat-bubble {% if m.sender == user %}self{% else %}other{% endif %}">
+        {% if m.attachment %}
+          {% if m.is_image %}
+            <a href="{{ m.attachment.url }}" target="_blank"><img src="{{ m.attachment.url }}" style="max-width:280px;border-radius:10px;display:block;"></a>
+          {% else %}
+            <a href="{{ m.attachment.url }}" target="_blank">📎 Attached file</a>
+          {% endif %}
+        {% endif %}
+        {% if m.body %}<div>{{ m.body|linebreaksbr }}</div>{% endif %}
+        <span class="ts">{{ m.created_at|date:"H:i" }}</span>
+      </div>
+    {% empty %}
+      <div class="empty"><div class="ico">👋</div><p>Start the conversation by sending a message.</p></div>
+    {% endfor %}
+  </div>
+
+  <form method="post" enctype="multipart/form-data" class="chat-input" id="chat-form">{% csrf_token %}
+    <label for="chat-attachment" class="icon-btn" style="flex-shrink:0;cursor:pointer;" title="Attach file">📎</label>
+    <input type="file" name="attachment" id="chat-attachment" style="display:none;">
+    <input type="text" name="body" id="chat-input" class="form-input" placeholder="Type your message…" autocomplete="off">
+    <button type="submit" class="btn btn-primary">Send</button>
+  </form>
+</div>
+{% endblock %}

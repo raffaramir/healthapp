@@ -1,0 +1,52 @@
+{% load static %}
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">H</div>
+    <div>
+      <div class="name">HEALTHAPP</div>
+      <div class="tag">Smart Healthcare</div>
+    </div>
+  </div>
+
+  <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'dashboard:home' %}">
+    <span class="icon">🏠</span> Dashboard
+  </a>
+
+  {% if user.is_patient %}
+    <div class="nav-section">Health Services</div>
+    <a class="nav-link" href="{% url 'services:request_select' %}"><span class="icon">➕</span> New Request</a>
+    <a class="nav-link" href="{% url 'services:request_list' %}"><span class="icon">📋</span> My Requests</a>
+    <a class="nav-link" href="{% url 'doctors:list' %}"><span class="icon">👨‍⚕️</span> Find a Doctor</a>
+    <a class="nav-link" href="{% url 'labs:list' %}"><span class="icon">🧪</span> Lab Services</a>
+    <a class="nav-link" href="{% url 'pharmacy:list' %}"><span class="icon">💊</span> Pharmacies</a>
+
+    <div class="nav-section">Health</div>
+    <a class="nav-link" href="{% url 'patients:medication_list' %}"><span class="icon">⏰</span> Medications</a>
+    <a class="nav-link" href="{% url 'patients:records' %}"><span class="icon">📁</span> Medical Records</a>
+    <a class="nav-link" href="{% url 'patients:health_profile' %}"><span class="icon">❤️</span> Health Profile</a>
+  {% endif %}
+
+  {% if user.is_doctor or user.is_lab or user.is_pharmacist %}
+    <div class="nav-section">Service Queue</div>
+    <a class="nav-link" href="{% url 'services:request_list' %}"><span class="icon">📥</span> Incoming Requests</a>
+    <a class="nav-link" href="{% url 'services:request_list' %}?status=accepted"><span class="icon">⚙️</span> In Progress</a>
+    <a class="nav-link" href="{% url 'services:request_list' %}?status=completed"><span class="icon">✅</span> Completed</a>
+  {% endif %}
+
+  {% if user.is_admin_role %}
+    <div class="nav-section">Administration</div>
+    <a class="nav-link" href="{% url 'dashboard:admin_users' %}"><span class="icon">👥</span> Users</a>
+    <a class="nav-link" href="{% url 'dashboard:admin_users' %}?status=pending"><span class="icon">⏳</span> Pending Approvals</a>
+    <a class="nav-link" href="{% url 'dashboard:admin_requests' %}"><span class="icon">📋</span> All Requests</a>
+    <a class="nav-link" href="{% url 'dashboard:admin_logs' %}"><span class="icon">📜</span> Activity Logs</a>
+    <a class="nav-link" href="/admin/"><span class="icon">⚙️</span> Django Admin</a>
+  {% endif %}
+
+  <div class="nav-section">Communication</div>
+  <a class="nav-link" href="{% url 'chat:conversation_list' %}"><span class="icon">💬</span> Messages</a>
+  <a class="nav-link" href="{% url 'notifications:list' %}"><span class="icon">🔔</span> Notifications</a>
+
+  <div class="nav-section">Account</div>
+  <a class="nav-link" href="{% url 'accounts:profile' %}"><span class="icon">👤</span> My Profile</a>
+  <a class="nav-link" href="{% url 'accounts:logout' %}"><span class="icon">🚪</span> Sign out</a>
+</aside>

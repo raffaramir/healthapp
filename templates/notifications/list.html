@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Notifications{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Notifications</h1>
+    <p class="page-subtitle">Stay up to date with your healthcare activity.</p>
+  </div>
+  {% if notifications %}
+    <form method="post" action="{% url 'notifications:mark_all_read' %}">{% csrf_token %}
+      <button class="btn btn-secondary">✓ Mark all as read</button>
+    </form>
+  {% endif %}
+</div>
+
+<div class="glass" style="padding:8px;">
+  {% for n in notifications %}
+    <form method="post" action="{% url 'notifications:mark_read' n.pk %}" style="display:contents;">
+      {% csrf_token %}
+      <button type="submit" class="notif-item {% if not n.is_read %}unread{% endif %}" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;">
+        <div class="ico-bg" style="{% if not n.is_read %}background:rgba(34,197,94,.1);{% endif %}">{{ n.icon }}</div>
+        <div style="flex:1;min-width:0;">
+          <div class="flex justify-between">
+            <strong style="color:var(--text);">{{ n.title }}</strong>
+            {% if not n.is_read %}<span class="badge badge-primary" style="flex-shrink:0;">New</span>{% endif %}
+          </div>
+          {% if n.body %}<div class="body">{{ n.body }}</div>{% endif %}
+          <div class="ts">{{ n.created_at|timesince }} ago · {{ n.get_category_display }}</div>
+        </div>
+      </button>
+    </form>
+  {% empty %}
+    <div class="empty" style="padding:60px 24px;">
+      <div class="ico">🔔</div>
+      <h3>All caught up</h3>
+      <p>No notifications yet. They will appear here when there's activity.</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

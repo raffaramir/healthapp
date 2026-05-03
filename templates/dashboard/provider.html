@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Provider Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Welcome, <span class="gradient-text">{{ user.display_name }}</span></h1>
+    <p class="page-subtitle">{{ user.get_role_display }} dashboard — manage your incoming requests.</p>
+  </div>
+</div>
+
+<div class="stat-grid" data-stagger>
+  <div class="stat-card">
+    <div class="icon-circle">📥</div>
+    <div class="label">Available in queue</div>
+    <div class="value">{{ queue_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon-circle">⚙️</div>
+    <div class="label">Active jobs</div>
+    <div class="value">{{ active_count }}</div>
+  </div>
+  <div class="stat-card gradient">
+    <div class="icon-circle">✅</div>
+    <div class="label">Completed</div>
+    <div class="value">{{ completed_count }}</div>
+  </div>
+</div>
+
+<div class="glass" style="padding:24px;">
+  <h3>Open queue</h3>
+  {% if queue %}
+    {% include 'services/_request_table.html' with requests=queue %}
+  {% else %}
+    <div class="empty"><div class="ico">📭</div><p>No new requests right now. Check back soon.</p></div>
+  {% endif %}
+</div>
+
+<div class="glass" style="padding:24px;">
+  <h3>My active jobs</h3>
+  {% if active %}
+    {% include 'services/_request_table.html' with requests=active %}
+  {% else %}
+    <div class="empty"><div class="ico">📋</div><p>No active jobs.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

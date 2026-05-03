@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Service Requests{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Service Requests</h1>
+    <p class="page-subtitle">{% if user.is_patient %}Track all the requests you've made.{% else %}Manage incoming healthcare requests.{% endif %}</p>
+  </div>
+  {% if user.is_patient %}
+    <a href="{% url 'services:request_select' %}" class="btn btn-primary">+ New request</a>
+  {% endif %}
+</div>
+
+<div class="glass" style="padding:18px;">
+  <form method="get" class="flex gap-2">
+    <select name="status" class="form-select" style="max-width:240px;">
+      <option value="">All statuses</option>
+      {% for c, l in statuses %}<option value="{{ c }}" {% if status_filter == c %}selected{% endif %}>{{ l }}</option>{% endfor %}
+    </select>
+    <button class="btn btn-primary">Filter</button>
+  </form>
+</div>
+
+<div class="glass">{% include 'services/_request_table.html' %}</div>
+{% endblock %}

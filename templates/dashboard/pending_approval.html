@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Pending approval{% endblock %}
+{% block content %}
+<div style="display:grid;place-items:center;min-height:60vh;">
+  <div class="glass-strong" style="padding:48px;max-width:520px;text-align:center;">
+    <div style="font-size:60px;margin-bottom:14px;">⏳</div>
+    <h2>Your account is under review</h2>
+    <p>An administrator must approve your registration before you can use HEALTHAPP.</p>
+    <p>You'll receive a notification once approved. This usually takes less than 24 hours.</p>
+    <a class="btn btn-secondary mt-2" href="{% url 'accounts:logout' %}">Sign out</a>
+  </div>
+</div>
+{% endblock %}

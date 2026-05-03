@@ -1,0 +1,39 @@
+{% load i18n %}{% get_current_language as LANGUAGE_CODE %}{% comment %}
+  Toggle EN <-> AR. Flip target = whatever the current language is NOT.
+  Optional kwarg `variant`: "light" (default, for dark topbar) or "dark" (for light landing navbar).
+{% endcomment %}
+{% if LANGUAGE_CODE == 'ar' %}
+  {% with target_code='en' target_label='EN' aria='Switch to English' %}
+    <form action="{% url 'set_language' %}" method="post" class="lang-switch-form">
+      {% csrf_token %}
+      <input name="next" type="hidden" value="{{ request.get_full_path }}">
+      <input name="language" type="hidden" value="{{ target_code }}">
+      <button type="submit" class="lang-switch-btn lang-switch-btn--{{ variant|default:'light' }}"
+              aria-label="{{ aria }}" title="{{ aria }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/>
+          <path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
+        </svg>
+        <span class="lang-switch-label">{{ target_label }}</span>
+      </button>
+    </form>
+  {% endwith %}
+{% else %}
+  {% with target_code='ar' target_label='عربي' aria='التبديل إلى العربية' %}
+    <form action="{% url 'set_language' %}" method="post" class="lang-switch-form">
+      {% csrf_token %}
+      <input name="next" type="hidden" value="{{ request.get_full_path }}">
+      <input name="language" type="hidden" value="{{ target_code }}">
+      <button type="submit" class="lang-switch-btn lang-switch-btn--{{ variant|default:'light' }}"
+              aria-label="{{ aria }}" title="{{ aria }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/>
+          <path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
+        </svg>
+        <span class="lang-switch-label">{{ target_label }}</span>
+      </button>
+    </form>
+  {% endwith %}
+{% endif %}

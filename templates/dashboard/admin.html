@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title"><span class="gradient-text">Administration</span></h1>
+    <p class="page-subtitle">Platform-wide insights and controls.</p>
+  </div>
+  <div class="flex gap-2">
+    <a href="{% url 'dashboard:admin_users' %}?status=pending" class="btn btn-primary">Review approvals ({{ counts.pending_users }})</a>
+    <a href="{% url 'dashboard:admin_logs' %}" class="btn btn-secondary">Activity logs</a>
+  </div>
+</div>
+
+<div class="stat-grid" data-stagger>
+  <div class="stat-card"><div class="icon-circle">🧑</div><div class="label">Patients</div><div class="value">{{ counts.patients }}</div></div>
+  <div class="stat-card"><div class="icon-circle">👨‍⚕️</div><div class="label">Doctors</div><div class="value">{{ counts.doctors }}</div></div>
+  <div class="stat-card"><div class="icon-circle">🧪</div><div class="label">Lab Techs</div><div class="value">{{ counts.labs }}</div></div>
+  <div class="stat-card"><div class="icon-circle">💊</div><div class="label">Pharmacists</div><div class="value">{{ counts.pharmacists }}</div></div>
+  <div class="stat-card gradient"><div class="icon-circle">📋</div><div class="label">Total Requests</div><div class="value">{{ counts.total_requests }}</div></div>
+  <div class="stat-card"><div class="icon-circle">⏳</div><div class="label">Open</div><div class="value">{{ counts.open_requests }}</div></div>
+  <div class="stat-card"><div class="icon-circle">📅</div><div class="label">Today</div><div class="value">{{ counts.today_requests }}</div></div>
+  <div class="stat-card"><div class="icon-circle">🗓</div><div class="label">Last 7 days</div><div class="value">{{ counts.week_requests }}</div></div>
+</div>
+
+<div style="display:grid;grid-template-columns: 2fr 1fr;gap:20px;">
+  <div class="glass" style="padding:24px;">
+    <h3>Daily activity (last 7 days)</h3>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:220px;padding:14px 0;">
+      {% for d in daily %}
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+          <div style="flex:1;display:flex;align-items:end;width:100%;">
+            <div style="width:100%;height:{% widthratio d.requests 1 8 %}%;min-height:4px;background:var(--gradient-primary);border-radius:6px 6px 0 0;box-shadow:var(--glow-primary);transition:height .4s;"></div>
+          </div>
+          <div style="font-size:.78rem;font-weight:700;">{{ d.requests }}</div>
+          <div class="text-muted" style="font-size:.7rem;">{{ d.date }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="glass" style="padding:24px;">
+    <h3>By request type</h3>
+    <div class="flex flex-col gap-2 mt-2">
+      {% for row in by_type %}
+        <div class="flex justify-between items-center" style="padding:10px 12px;border-radius:10px;background:var(--surface-strong);">
+          <span>{{ row.service_type }}</span>
+          <strong class="gradient-text">{{ row.c }}</strong>
+        </div>
+      {% empty %}
+        <div class="text-muted">No requests yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+  <div class="glass" style="padding:24px;">
+    <div class="flex justify-between items-center mb-2">
+      <h3 style="margin:0;">Pending approvals</h3>
+      <a href="{% url 'dashboard:admin_users' %}?status=pending" class="text-muted" style="font-size:.85rem;">All →</a>
+    </div>
+    {% if pending_users %}
+      <div class="flex flex-col gap-2">
+        {% for u in pending_users %}
+          <div class="flex justify-between items-center" style="padding:12px;border-radius:10px;background:var(--surface-strong);">
+            <div>
+              <strong>{{ u.display_name }}</strong>
+              <div class="text-muted" style="font-size:.82rem;">{{ u.email }} · {{ u.get_role_display }}</div>
+            </div>
+            <form method="post" action="{% url 'dashboard:admin_user_action' u.pk %}">{% csrf_token %}
+              <input type="hidden" name="action" value="approve">
+              <button class="btn btn-accent btn-sm">Approve</button>
+            </form>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-muted">No pending approvals.</div>
+    {% endif %}
+  </div>
+
+  <div class="glass" style="padding:24px;">
+    <h3>Recent activity</h3>
+    <div class="flex flex-col gap-1 mt-2">
+      {% for log in recent_logs %}
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);">
+          <div class="flex justify-between" style="font-size:.88rem;">
+            <span><strong>{{ log.user|default:'system' }}</strong> · {{ log.action }}</span>
+            <span class="text-muted" style="font-size:.78rem;">{{ log.created_at|timesince }} ago</span>
+          </div>
+        </div>
+      {% empty %}
+        <div class="text-muted">No activity yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

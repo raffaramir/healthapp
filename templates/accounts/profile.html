@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">Update your personal information.</p>
+  </div>
+</div>
+
+<div class="glass" style="padding:32px;max-width:780px;">
+  <div class="flex items-center gap-3 mb-4">
+    <div class="avatar" style="width:80px;height:80px;font-size:32px;">
+      {% if user.profile_image %}<img src="{{ user.profile_image.url }}" alt="">
+      {% else %}{{ user.display_name|slice:":1"|upper }}{% endif %}
+    </div>
+    <div>
+      <h2 style="margin:0;">{{ user.display_name }}</h2>
+      <span class="badge badge-primary">{{ user.get_role_display }}</span>
+      {% if user.is_approved %}<span class="badge badge-success">Approved</span>
+      {% else %}<span class="badge badge-warning">Pending approval</span>{% endif %}
+    </div>
+  </div>
+
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="form-grid">
+      {% for field in form %}
+        <div class="form-group">
+          <label>{{ field.label }}</label>
+          {{ field }}
+          {% for err in field.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Save changes</button>
+  </form>
+</div>
+{% endblock %}

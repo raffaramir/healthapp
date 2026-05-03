@@ -1,0 +1,50 @@
+{% load i18n %}
+<header class="topbar">
+  <div class="flex items-center gap-2">
+    <button class="icon-btn menu-toggle" data-action="toggle-sidebar" aria-label="{% trans 'Toggle menu' %}">☰</button>
+    <div class="search">
+      <span>🔍</span>
+      <input type="search" placeholder="{% trans 'Search doctors, labs, requests…' %}" />
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    {% include 'partials/language_switcher.html' with variant='light' %}
+    <button class="icon-btn" data-action="toggle-theme" title="{% trans 'Toggle theme' %}">🌓</button>
+
+    <div style="position: relative;">
+      <button class="icon-btn" data-action="toggle-notifs" title="{% trans 'Notifications' %}">
+        🔔
+        <span class="badge" id="notif-badge"
+              style="{% if not nav_unread_notifications %}display:none{% endif %}">
+          {{ nav_unread_notifications|default:0 }}
+        </span>
+      </button>
+      <div class="notif-dropdown glass-strong" id="notif-dropdown">
+        <div class="flex justify-between items-center" style="padding:10px 12px;">
+          <strong>{% trans "Notifications" %}</strong>
+          <a href="{% url 'notifications:list' %}" class="text-muted" style="font-size:.8rem;">{% trans "View all" %}</a>
+        </div>
+        <div class="divider" style="margin:0 0 6px;"></div>
+        {% for n in nav_recent_notifications %}
+          <a href="{% if n.link %}{{ n.link }}{% else %}{% url 'notifications:list' %}{% endif %}"
+             class="notif-item {% if not n.is_read %}unread{% endif %}">
+            <div class="ico-bg">{{ n.icon }}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:600;">{{ n.title }}</div>
+              <div class="body">{{ n.body|truncatechars:80 }}</div>
+              <div class="ts">{{ n.created_at|timesince }} {% trans "ago" %}</div>
+            </div>
+          </a>
+        {% empty %}
+          <div class="text-muted text-center" style="padding:20px;">{% trans "No notifications yet." %}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <a href="{% url 'accounts:profile' %}" class="avatar" title="{{ user.display_name }}">
+      {% if user.profile_image %}<img src="{{ user.profile_image.url }}" alt="">
+      {% else %}{{ user.display_name|slice:":1"|upper }}{% endif %}
+    </a>
+  </div>
+</header>

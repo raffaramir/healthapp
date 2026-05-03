@@ -1,0 +1,98 @@
+# HEALTHAPP — Arabic translation
+# Copyright (C) 2026 HEALTHAPP
+# This file is distributed under the same license as the HEALTHAPP package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: HEALTHAPP 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-03 00:00+0000\n"
+"PO-Revision-Date: 2026-05-03 00:00+0000\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
+
+# ── Common ──
+msgid "English"
+msgstr "الإنجليزية"
+
+msgid "Arabic"
+msgstr "العربية"
+
+# ── Landing navbar ──
+msgid "Why us"
+msgstr "لماذا نحن"
+
+msgid "How it works"
+msgstr "كيف يعمل"
+
+msgid "Services"
+msgstr "الخدمات"
+
+msgid "Security"
+msgstr "الأمان"
+
+msgid "Reviews"
+msgstr "التقييمات"
+
+msgid "FAQ"
+msgstr "الأسئلة الشائعة"
+
+msgid "Team"
+msgstr "الفريق"
+
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
+msgid "Get started"
+msgstr "ابدأ الآن"
+
+# ── Hero ──
+msgid "HIPAA-aligned · 50+ verified providers · Live now"
+msgstr "متوافق مع HIPAA · أكثر من 50 مزودًا موثقًا · متاح الآن"
+
+msgid "Healthcare,"
+msgstr "رعاية صحية،"
+
+msgid "delivered home."
+msgstr "تصل إلى منزلك."
+
+msgid "Book a doctor, lab technician, or pharmacy delivery in seconds. Chat with verified specialists, manage your medical records, and never miss a dose — all in one secure platform."
+msgstr "احجز طبيبًا أو فني مختبر أو توصيل صيدلية خلال ثوانٍ. تواصل مع أخصائيين موثقين، وأدر سجلاتك الطبية، ولا تفوّت جرعة أبدًا — كل ذلك في منصة آمنة واحدة."
+
+msgid "Register now — it's free"
+msgstr "سجّل الآن — مجانًا"
+
+msgid "Bank-grade security"
+msgstr "أمان بمستوى البنوك"
+
+msgid "Sub-2s response"
+msgstr "استجابة في أقل من ثانيتين"
+
+msgid "No setup fees"
+msgstr "بدون رسوم تأسيس"
+
+# ── Topbar ──
+msgid "Toggle menu"
+msgstr "تبديل القائمة"
+
+msgid "Search doctors, labs, requests…"
+msgstr "ابحث عن أطباء، مختبرات، طلبات…"
+
+msgid "Toggle theme"
+msgstr "تبديل المظهر"
+
+msgid "Notifications"
+msgstr "الإشعارات"
+
+msgid "View all"
+msgstr "عرض الكل"
+
+msgid "ago"
+msgstr "مضت"
+
+msgid "No notifications yet."
+msgstr "لا توجد إشعارات بعد."

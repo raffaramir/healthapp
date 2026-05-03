@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Dr. {{ doctor.user.display_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <a href="{% url 'doctors:list' %}" class="text-muted" style="font-size:.85rem;">← All doctors</a>
+    <h1 class="page-title mt-1">Dr. {{ doctor.user.display_name }}</h1>
+    <p class="page-subtitle">{{ doctor.specialty }}</p>
+  </div>
+  <div class="flex gap-2">
+    <a href="{% url 'chat:start' doctor.user.pk %}" class="btn btn-secondary">💬 Message</a>
+    <a href="{% url 'services:request_create' 'doctor_home' %}" class="btn btn-primary">Request a visit</a>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns: 1fr 2fr;gap:20px;">
+  <div class="glass" style="padding:28px;text-align:center;">
+    <div class="avatar" style="width:120px;height:120px;font-size:48px;margin:0 auto 16px;">
+      {% if doctor.user.profile_image %}<img src="{{ doctor.user.profile_image.url }}">{% else %}{{ doctor.user.display_name|slice:":1"|upper }}{% endif %}
+    </div>
+    <h2>{{ doctor.user.display_name }}</h2>
+    <p class="text-muted">{{ doctor.specialty }}</p>
+    <div class="flex gap-1 justify-between" style="justify-content:center;flex-wrap:wrap;">
+      <span class="badge badge-primary">License: {{ doctor.license_number }}</span>
+      <span class="badge badge-secondary">{{ doctor.years_of_experience }}+ yrs</span>
+    </div>
+  </div>
+  <div class="glass" style="padding:28px;">
+    <h3>About</h3>
+    <p>{{ doctor.bio|default:"No bio provided yet." }}</p>
+    <div class="form-grid mt-3">
+      <div><div class="text-muted" style="font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;">Consultation</div><div class="gradient-text" style="font-size:1.4rem;font-weight:800;">${{ doctor.consultation_fee }}</div></div>
+      <div><div class="text-muted" style="font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;">Home visit</div><div class="text-accent" style="font-size:1.4rem;font-weight:800;">${{ doctor.home_visit_fee }}</div></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Join HEALTHAPP{% endblock %}
+
+{% block public_content %}
+<div style="min-height:100vh;display:grid;place-items:center;padding:40px 20px;">
+  <div class="glass-strong" style="padding:48px;max-width:780px;width:100%;">
+    <div class="text-center mb-4">
+      <div class="logo" style="width:54px;height:54px;border-radius:16px;background:var(--gradient-primary);display:inline-grid;place-items:center;color:#FFFFFF;font-weight:800;font-size:22px;box-shadow:var(--glow-primary);">H</div>
+      <h1 class="mt-2">Join HEALTHAPP</h1>
+      <p>Choose the type of account you'd like to create.</p>
+    </div>
+
+    <div class="service-grid" data-stagger>
+      <a href="{% url 'accounts:register' 'patient' %}" class="service-card">
+        <div class="ico">🧑</div>
+        <h3>I'm a Patient</h3>
+        <p>Request services, track medications, chat with doctors.</p>
+        <span class="arrow">→</span>
+      </a>
+      <a href="{% url 'accounts:register' 'doctor' %}" class="service-card alt">
+        <div class="ico">👨‍⚕️</div>
+        <h3>I'm a Doctor</h3>
+        <p>Provide consultations and home visits.</p>
+        <span class="arrow">→</span>
+      </a>
+      <a href="{% url 'accounts:register' 'lab' %}" class="service-card alt3">
+        <div class="ico">🧪</div>
+        <h3>Lab Technician</h3>
+        <p>Offer at-home blood tests and analyses.</p>
+        <span class="arrow">→</span>
+      </a>
+      <a href="{% url 'accounts:register' 'pharmacist' %}" class="service-card alt2">
+        <div class="ico">💊</div>
+        <h3>I'm a Pharmacist</h3>
+        <p>Receive prescription orders and deliver medication.</p>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <div class="text-center mt-4">
+      Already have an account? <a href="{% url 'accounts:login' %}">Sign in</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

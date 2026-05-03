@@ -1,0 +1,917 @@
+{% load static i18n %}{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HEALTHAPP — Smart healthcare home services platform. Book doctors, lab tests, and pharmacy delivery. Real-time chat, secure medical records, and medication reminders." />
+  <meta name="keywords" content="healthcare, telemedicine, doctor at home, online consultation, medical records, pharmacy delivery, lab tests" />
+  <meta name="theme-color" content="#16A34A" />
+  <meta property="og:title" content="HEALTHAPP — Healthcare, delivered home" />
+  <meta property="og:description" content="Modern healthcare platform connecting patients, doctors, labs, and pharmacies." />
+  <meta property="og:type" content="website" />
+  <title>HEALTHAPP — Healthcare, delivered home</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="{% url 'pwa_manifest' %}">
+  <meta name="application-name" content="HEALTHAPP">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HEALTHAPP">
+  <link rel="apple-touch-icon" href="{% static 'img/pwa/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/pwa/icon.svg' %}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/pwa/icon-192.png' %}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{% static 'img/pwa/icon-512.png' %}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900{% if LANGUAGE_BIDI %}&family=Cairo:wght@400;600;700;800;900{% endif %}&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+</head>
+
+<body class="bg-white text-ink-900 antialiased">
+
+  <!-- ──────── Sticky Navbar ──────── -->
+  <header id="navbar" class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-white/75 border-b border-slate-100 transition-all">
+    <nav class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl grid place-items-center text-white font-extrabold shadow-glow"
+             style="background: linear-gradient(135deg, #16A34A 0%, #10B981 100%);">H</div>
+        <span class="font-display font-extrabold text-lg tracking-tight">HEALTHAPP</span>
+      </a>
+
+      <ul class="hidden md:flex items-center gap-9 text-sm font-medium text-ink-500">
+        <li><a class="nav-link" href="#why">{% trans "Why us" %}</a></li>
+        <li><a class="nav-link" href="#how">{% trans "How it works" %}</a></li>
+        <li><a class="nav-link" href="#services">{% trans "Services" %}</a></li>
+        <li><a class="nav-link" href="#trust">{% trans "Security" %}</a></li>
+        <li><a class="nav-link" href="#testimonials">{% trans "Reviews" %}</a></li>
+        <li><a class="nav-link" href="#faq">{% trans "FAQ" %}</a></li>
+        <li><a class="nav-link" href="#team">{% trans "Team" %}</a></li>
+      </ul>
+
+      <div class="flex items-center gap-2">
+        {% include 'partials/language_switcher.html' with variant='dark' %}
+        <a href="{% url 'accounts:login' %}" class="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-ink-700 hover:text-brand-600 transition">{% trans "Sign in" %}</a>
+        <a href="{% url 'accounts:register_select' %}"
+           class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white rounded-full shadow-glow hover:shadow-mint hover:-translate-y-0.5 transition-all"
+           style="background: linear-gradient(135deg, #16A34A 0%, #10B981 100%);">
+          {% trans "Get started" %}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <button id="mobileToggle" type="button" aria-label="Open menu" aria-expanded="false"
+                class="md:hidden w-10 h-10 grid place-items-center rounded-xl border border-slate-200 text-ink-700 hover:bg-slate-50 transition">
+          <svg id="iconBurger" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg id="iconClose" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile slide-down panel -->
+    <div id="mobilePanel" class="md:hidden hidden border-t border-slate-100 bg-white/95 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1 text-sm font-semibold text-ink-700">
+        <a href="#why"          class="mobile-link px-3 py-2.5 rounded-lg hover:bg-brand-50 hover:text-brand-700">{% trans "Why us" %}</a>
+        <a href="#how"          class="mobile-link px-3 py-2.5 rounded-lg hover:bg-brand-50 hover:text-brand-700">{% trans "How it works" %}</a>
+        <a href="#services"     class="mobile-link px-3 py-2.5 rounded-lg hover:bg-brand-50 hover:text-brand-700">{% trans "Services" %}</a>
+        <a href="#trust"        class="mobile-link px-3 py-2.5 rounded-lg hover:bg-brand-50 hover:text-brand-700">{% trans "Security" %}</a>
+        <a href="#testimonials" class="mobile-link px-3 py-2.5 rounded-lg hover:bg-brand-50 hover:text-brand-700">{% trans "Reviews" %}</a>
+        <a href="#faq"          class="mobile-link px-3 py-2.5 rounded-lg hover:bg-brand-50 hover:text-brand-700">{% trans "FAQ" %}</a>
+        <a href="#team"         class="mobile-link px-3 py-2.5 rounded-lg hover:bg-brand-50 hover:text-brand-700">{% trans "Team" %}</a>
+        <div class="mt-2 grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+          <a href="{% url 'accounts:login' %}" class="px-3 py-2.5 rounded-lg text-center border border-slate-200 hover:border-brand-500 hover:text-brand-600 transition">{% trans "Sign in" %}</a>
+          <a href="{% url 'accounts:register_select' %}" class="px-3 py-2.5 rounded-lg text-center text-white shadow-glow"
+             style="background: linear-gradient(135deg, #16A34A 0%, #10B981 100%);">{% trans "Get started" %}</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ──────── Hero ──────── -->
+  <section id="top" class="relative pt-32 lg:pt-40 pb-24 lg:pb-32 overflow-hidden">
+    <div class="absolute inset-0 grid-pattern opacity-60"></div>
+    <div class="blob bg-brand-200" style="width:380px;height:380px;top:-120px;left:-100px;"></div>
+    <div class="blob bg-mint-100" style="width:480px;height:480px;bottom:-160px;right:-120px;animation-delay:-6s;"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Left column -->
+      <div data-aos="fade-up">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-brand-100 text-xs font-semibold text-brand-700 shadow-soft">
+          <span class="w-2 h-2 rounded-full bg-mint-500 pulse-ring"></span>
+          {% trans "HIPAA-aligned · 50+ verified providers · Live now" %}
+        </div>
+
+        <h1 class="mt-6 font-display text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.05] tracking-tight">
+          {% trans "Healthcare," %}<br>
+          <span class="gradient-text">{% trans "delivered home." %}</span>
+        </h1>
+
+        <p class="mt-6 max-w-xl text-lg text-ink-500 leading-relaxed">
+          {% trans "Book a doctor, lab technician, or pharmacy delivery in seconds. Chat with verified specialists, manage your medical records, and never miss a dose — all in one secure platform." %}
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href="{% url 'accounts:register_select' %}"
+             class="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white font-semibold shadow-glow hover:shadow-mint hover:-translate-y-0.5 transition-all"
+             style="background: linear-gradient(135deg, #16A34A 0%, #10B981 100%);">
+            {% trans "Register now — it's free" %}
+            <svg class="group-hover:translate-x-1 transition-transform" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="{% url 'accounts:login' %}"
+             class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white border border-slate-200 text-ink-900 font-semibold hover:border-brand-500 hover:text-brand-600 transition">
+            {% trans "Sign in" %}
+          </a>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="mt-10 grid grid-cols-3 gap-3 max-w-md">
+          <div class="flex items-center gap-2 text-xs font-medium text-ink-500">
+            <span class="w-7 h-7 rounded-lg bg-brand-50 grid place-items-center text-brand-600">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            </span>
+            {% trans "Bank-grade security" %}
+          </div>
+          <div class="flex items-center gap-2 text-xs font-medium text-ink-500">
+            <span class="w-7 h-7 rounded-lg bg-mint-50 grid place-items-center text-mint-600">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+            </span>
+            {% trans "Sub-2s response" %}
+          </div>
+          <div class="flex items-center gap-2 text-xs font-medium text-ink-500">
+            <span class="w-7 h-7 rounded-lg bg-brand-50 grid place-items-center text-brand-600">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.5 6.5L21 11l-5 4.5L17.5 22 12 18.5 6.5 22 8 15.5 3 11l6.5-2.5z"/></svg>
+            </span>
+            {% trans "No setup fees" %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column - Hero illustration / mockup -->
+      <div class="relative" data-aos="fade-left" data-aos-delay="200">
+        <div class="relative aspect-[5/6] max-w-md mx-auto">
+          <!-- Backdrop card -->
+          <div class="absolute inset-0 rounded-[2rem] -rotate-6"
+               style="background: linear-gradient(135deg,#DCFCE7 0%,#D1FAE5 100%);"></div>
+
+          <!-- Main card -->
+          <div class="absolute inset-0 rotate-3 rounded-[2rem] bg-white shadow-2xl border border-slate-100 p-7 flex flex-col">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl grid place-items-center text-white font-bold"
+                     style="background: linear-gradient(135deg, #16A34A, #10B981);">DS</div>
+                <div>
+                  <div class="font-bold text-sm">Dr. Sarah Selles</div>
+                  <div class="text-xs text-ink-400">Cardiologist · 4.9 ★</div>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-mint-50 text-mint-600 text-xs font-bold">Online</span>
+            </div>
+
+            <div class="mt-6 rounded-2xl bg-slate-50 p-5 text-sm text-ink-700">
+              "Your latest results look great. Let's schedule a follow-up next month to track your progress."
+            </div>
+
+            <div class="mt-6">
+              <div class="text-xs font-semibold text-ink-400 uppercase tracking-wider mb-3">Today's vitals</div>
+              <div class="grid grid-cols-3 gap-3">
+                <div class="rounded-xl bg-brand-50 p-3 text-center">
+                  <div class="text-[11px] text-brand-700 font-medium">Heart</div>
+                  <div class="text-lg font-extrabold text-brand-700">72</div>
+                  <div class="text-[10px] text-ink-400">bpm</div>
+                </div>
+                <div class="rounded-xl bg-mint-50 p-3 text-center">
+                  <div class="text-[11px] text-mint-600 font-medium">SpO₂</div>
+                  <div class="text-lg font-extrabold text-mint-600">98</div>
+                  <div class="text-[10px] text-ink-400">%</div>
+                </div>
+                <div class="rounded-xl bg-amber-50 p-3 text-center">
+                  <div class="text-[11px] text-amber-700 font-medium">Steps</div>
+                  <div class="text-lg font-extrabold text-amber-700">8.2k</div>
+                  <div class="text-[10px] text-ink-400">today</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-auto pt-6">
+              <button class="w-full py-3 rounded-2xl text-white font-semibold text-sm shadow-glow"
+                      style="background: linear-gradient(135deg, #16A34A 0%, #10B981 100%);">
+                Book follow-up →
+              </button>
+            </div>
+          </div>
+
+          <!-- Floating notification -->
+          <div class="absolute -top-4 -right-6 ticker-item rounded-2xl bg-white shadow-soft border border-slate-100 px-4 py-3 flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-mint-100 grid place-items-center text-mint-600">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="11" rx="5.5"/><path d="M12 8v11M8 13h8"/></svg>
+            </div>
+            <div>
+              <div class="text-xs font-bold">Medication taken</div>
+              <div class="text-[11px] text-ink-400">Metformin · 9:00 AM</div>
+            </div>
+          </div>
+
+          <!-- Floating lab tile -->
+          <div class="absolute -bottom-4 -left-6 ticker-item rounded-2xl bg-white shadow-soft border border-slate-100 px-4 py-3 flex items-center gap-2.5"
+               style="animation-delay:-3s;">
+            <div class="w-9 h-9 rounded-xl bg-brand-100 grid place-items-center text-brand-600">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v7l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.5 14h9"/></svg>
+            </div>
+            <div>
+              <div class="text-xs font-bold">Lab on the way</div>
+              <div class="text-[11px] text-ink-400">Arrives in 22 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trusted by marquee -->
+    <div class="mt-20">
+      <div class="text-center text-xs font-semibold text-ink-400 uppercase tracking-[.2em] mb-6">
+        Trusted by leading healthcare networks
+      </div>
+      <div class="flex overflow-hidden bg-fade-mask">
+        <div class="marquee-track flex shrink-0 gap-12 pr-12 items-center text-ink-400 font-display font-bold text-2xl whitespace-nowrap">
+          <span>MediCorp</span><span class="text-brand-200">●</span>
+          <span>NorthBay Health</span><span class="text-brand-200">●</span>
+          <span>BlueCross Network</span><span class="text-brand-200">●</span>
+          <span>HealthOne</span><span class="text-brand-200">●</span>
+          <span>Bayview Clinic</span><span class="text-brand-200">●</span>
+          <span>St. Mary's</span><span class="text-brand-200">●</span>
+          <span>Global Medix</span><span class="text-brand-200">●</span>
+          <span>UrbanCare</span><span class="text-brand-200">●</span>
+        </div>
+        <div class="marquee-track flex shrink-0 gap-12 pr-12 items-center text-ink-400 font-display font-bold text-2xl whitespace-nowrap" aria-hidden="true">
+          <span>MediCorp</span><span class="text-brand-200">●</span>
+          <span>NorthBay Health</span><span class="text-brand-200">●</span>
+          <span>BlueCross Network</span><span class="text-brand-200">●</span>
+          <span>HealthOne</span><span class="text-brand-200">●</span>
+          <span>Bayview Clinic</span><span class="text-brand-200">●</span>
+          <span>St. Mary's</span><span class="text-brand-200">●</span>
+          <span>Global Medix</span><span class="text-brand-200">●</span>
+          <span>UrbanCare</span><span class="text-brand-200">●</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── Why Choose ──────── -->
+  <section id="why" class="py-24 lg:py-32 bg-slate-50/50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-50 text-brand-700">Why HEALTHAPP</span>
+        <h2 class="mt-4 font-display text-4xl lg:text-5xl font-extrabold leading-tight">
+          Built for the way<br>you actually live.
+        </h2>
+        <p class="mt-4 text-lg text-ink-500">
+          Skip the waiting rooms. Skip the paperwork. Get expert care, lab tests, and prescriptions delivered — when you need them.
+        </p>
+      </div>
+
+      <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="feature-card rounded-3xl bg-white p-8 border border-slate-100 shadow-soft" data-aos="fade-up" data-aos-delay="0">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center shadow-glow text-white"
+               style="background: linear-gradient(135deg, #22C55E, #16A34A);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold">One-tap booking</h3>
+          <p class="mt-2 text-ink-500 leading-relaxed">Book a doctor visit, lab test, or pharmacy delivery in under 30 seconds. We handle the rest.</p>
+        </div>
+        <div class="feature-card rounded-3xl bg-white p-8 border border-slate-100 shadow-soft" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center shadow-mint text-white"
+               style="background: linear-gradient(135deg, #34D399, #10B981);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 13h6M9 16h4"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold">Records in one place</h3>
+          <p class="mt-2 text-ink-500 leading-relaxed">All your prescriptions, results, and history — synced across providers and accessible anywhere.</p>
+        </div>
+        <div class="feature-card rounded-3xl bg-white p-8 border border-slate-100 shadow-soft" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center shadow-glow text-white"
+               style="background: linear-gradient(135deg, #16A34A, #10B981);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold">Real-time access</h3>
+          <p class="mt-2 text-ink-500 leading-relaxed">Live chat with verified specialists. No more 3-day callback windows or voicemail tag.</p>
+        </div>
+        <div class="feature-card rounded-3xl bg-white p-8 border border-slate-100 shadow-soft" data-aos="fade-up" data-aos-delay="0">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center shadow-mint text-white"
+               style="background: linear-gradient(135deg, #10B981, #16A34A);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold">Bank-grade security</h3>
+          <p class="mt-2 text-ink-500 leading-relaxed">End-to-end encryption, HIPAA-aligned infrastructure, and audit logs on every action.</p>
+        </div>
+        <div class="feature-card rounded-3xl bg-white p-8 border border-slate-100 shadow-soft" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center shadow-glow text-white"
+               style="background: linear-gradient(135deg, #16A34A, #166534);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 9h18M7 13h4M14 13h3"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold">Smart dashboard</h3>
+          <p class="mt-2 text-ink-500 leading-relaxed">Vitals, upcoming visits, medications, and reminders — at a glance, on every device.</p>
+        </div>
+        <div class="feature-card rounded-3xl bg-white p-8 border border-slate-100 shadow-soft" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center shadow-mint text-white"
+               style="background: linear-gradient(135deg, #34D399, #059669);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6M12 5V2"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold">Save hours every week</h3>
+          <p class="mt-2 text-ink-500 leading-relaxed">Automated reminders, refills, and follow-ups so you spend less time managing your health.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── How It Works ──────── -->
+  <section id="how" class="py-24 lg:py-32 relative overflow-hidden">
+    <div class="absolute inset-0 grid-pattern opacity-30"></div>
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-mint-50 text-mint-600">How it works</span>
+        <h2 class="mt-4 font-display text-4xl lg:text-5xl font-extrabold leading-tight">
+          From signup to care<br>in under <span class="gradient-text">3 minutes.</span>
+        </h2>
+      </div>
+
+      <div class="mt-16 step-line grid md:grid-cols-3 gap-12 md:gap-6">
+        <div class="text-center relative" data-aos="fade-up" data-aos-delay="0">
+          <div class="relative inline-block">
+            <div class="w-20 h-20 rounded-3xl bg-white border-2 border-brand-500 shadow-glow grid place-items-center text-brand-600 mx-auto relative z-10">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M5.5 17a4 4 0 0 1 7 0"/><path d="M14 9h4M14 13h3"/></svg>
+            </div>
+            <span class="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full bg-brand-600 text-white text-sm font-bold grid place-items-center shadow-glow">1</span>
+          </div>
+          <h3 class="mt-6 text-xl font-bold">Create your account</h3>
+          <p class="mt-2 text-ink-500 max-w-xs mx-auto">Sign up as patient, doctor, lab, or pharmacy in 60 seconds. Email-only — no commitment.</p>
+        </div>
+        <div class="text-center relative" data-aos="fade-up" data-aos-delay="150">
+          <div class="relative inline-block">
+            <div class="w-20 h-20 rounded-3xl bg-white border-2 border-brand-500 shadow-glow grid place-items-center text-brand-600 mx-auto relative z-10">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+            </div>
+            <span class="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full bg-brand-600 text-white text-sm font-bold grid place-items-center shadow-glow">2</span>
+          </div>
+          <h3 class="mt-6 text-xl font-bold">Sign in securely</h3>
+          <p class="mt-2 text-ink-500 max-w-xs mx-auto">Encrypted login with role-based access. Your data is yours alone — always.</p>
+        </div>
+        <div class="text-center relative" data-aos="fade-up" data-aos-delay="300">
+          <div class="relative inline-block">
+            <div class="w-20 h-20 rounded-3xl bg-white border-2 border-mint-500 shadow-mint grid place-items-center text-mint-500 mx-auto relative z-10">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c1.5-7 6-12 14-13-1 8-6 12.5-13 14z"/><path d="M14 5a4 4 0 0 1 5 5"/><path d="M5 14L3 21l7-2"/></svg>
+            </div>
+            <span class="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full bg-mint-500 text-white text-sm font-bold grid place-items-center shadow-mint">3</span>
+          </div>
+          <h3 class="mt-6 text-xl font-bold">Access services instantly</h3>
+          <p class="mt-2 text-ink-500 max-w-xs mx-auto">Book, chat, track. Manage your health from one beautiful dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── Services ──────── -->
+  <section id="services" class="py-24 lg:py-32 bg-slate-50/50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-50 text-brand-700">Services</span>
+        <h2 class="mt-4 font-display text-4xl lg:text-5xl font-extrabold leading-tight">
+          Every healthcare module.<br>One unified platform.
+        </h2>
+        <p class="mt-4 text-lg text-ink-500">Designed for patients, doctors, labs, pharmacies, and admins — with role-based dashboards for everyone.</p>
+      </div>
+
+      <div class="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <a href="{% url 'accounts:register_select' %}" class="feature-card group relative rounded-3xl bg-white p-7 border border-slate-100 shadow-soft overflow-hidden" data-aos="fade-up" data-aos-delay="0">
+          <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-brand-100 group-hover:bg-brand-200 transition opacity-60"></div>
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-brand-500 grid place-items-center text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+            </div>
+            <h3 class="mt-4 font-bold">Patient management</h3>
+            <p class="mt-1.5 text-sm text-ink-500">Profiles, vitals, history, and emergency info in one secure place.</p>
+          </div>
+        </a>
+        <a href="{% url 'accounts:register_select' %}" class="feature-card group relative rounded-3xl bg-white p-7 border border-slate-100 shadow-soft overflow-hidden" data-aos="fade-up" data-aos-delay="50">
+          <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-mint-100 group-hover:bg-mint-200 transition opacity-60"></div>
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-mint-500 grid place-items-center text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0V6a4 4 0 0 1 4-4z" transform="translate(0)"/><path d="M5 11a7 7 0 0 0 14 0"/><circle cx="19" cy="14" r="2"/></svg>
+            </div>
+            <h3 class="mt-4 font-bold">Doctor dashboard</h3>
+            <p class="mt-1.5 text-sm text-ink-500">Manage incoming requests, charts, and appointments from one screen.</p>
+          </div>
+        </a>
+        <a href="{% url 'accounts:register_select' %}" class="feature-card group relative rounded-3xl bg-white p-7 border border-slate-100 shadow-soft overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+          <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-brand-100 group-hover:bg-brand-200 transition opacity-60"></div>
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-brand-500 grid place-items-center text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            </div>
+            <h3 class="mt-4 font-bold">Smart appointments</h3>
+            <p class="mt-1.5 text-sm text-ink-500">Auto-scheduling with reminders, rescheduling, and home visits.</p>
+          </div>
+        </a>
+        <a href="{% url 'accounts:register_select' %}" class="feature-card group relative rounded-3xl bg-white p-7 border border-slate-100 shadow-soft overflow-hidden" data-aos="fade-up" data-aos-delay="150">
+          <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-mint-100 group-hover:bg-mint-200 transition opacity-60"></div>
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-mint-500 grid place-items-center text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+            </div>
+            <h3 class="mt-4 font-bold">Reports &amp; analytics</h3>
+            <p class="mt-1.5 text-sm text-ink-500">Lab results, trends, and provider insights at a glance.</p>
+          </div>
+        </a>
+        <a href="{% url 'accounts:register_select' %}" class="feature-card group relative rounded-3xl bg-white p-7 border border-slate-100 shadow-soft overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+          <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-brand-100 group-hover:bg-brand-200 transition opacity-60"></div>
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-brand-500 grid place-items-center text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
+            </div>
+            <h3 class="mt-4 font-bold">Live notifications</h3>
+            <p class="mt-1.5 text-sm text-ink-500">Real-time alerts for messages, approvals, and appointments.</p>
+          </div>
+        </a>
+        <a href="{% url 'accounts:register_select' %}" class="feature-card group relative rounded-3xl bg-white p-7 border border-slate-100 shadow-soft overflow-hidden" data-aos="fade-up" data-aos-delay="250">
+          <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-mint-100 group-hover:bg-mint-200 transition opacity-60"></div>
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-mint-500 grid place-items-center text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
+            </div>
+            <h3 class="mt-4 font-bold">Medical history</h3>
+            <p class="mt-1.5 text-sm text-ink-500">Complete timeline — visits, labs, prescriptions, allergies.</p>
+          </div>
+        </a>
+        <a href="{% url 'accounts:register_select' %}" class="feature-card group relative rounded-3xl bg-white p-7 border border-slate-100 shadow-soft overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+          <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-brand-100 group-hover:bg-brand-200 transition opacity-60"></div>
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-brand-500 grid place-items-center text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="11" rx="5.5"/><path d="M12 8v11M8 13h8"/></svg>
+            </div>
+            <h3 class="mt-4 font-bold">Pharmacy delivery</h3>
+            <p class="mt-1.5 text-sm text-ink-500">Order prescriptions and over-the-counter medication to your door.</p>
+          </div>
+        </a>
+        <a href="{% url 'accounts:register_select' %}" class="feature-card group relative rounded-3xl bg-white p-7 border border-slate-100 shadow-soft overflow-hidden" data-aos="fade-up" data-aos-delay="350">
+          <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-mint-100 group-hover:bg-mint-200 transition opacity-60"></div>
+          <div class="relative">
+            <div class="w-12 h-12 rounded-xl bg-mint-500 grid place-items-center text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+            </div>
+            <h3 class="mt-4 font-bold">Admin controls</h3>
+            <p class="mt-1.5 text-sm text-ink-500">Approvals, audit logs, analytics, and full platform oversight.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── Stats / Counters ──────── -->
+  <section class="py-20 lg:py-28 relative overflow-hidden">
+    <div class="absolute inset-0" style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%);"></div>
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="max-w-2xl mx-auto text-center mb-14" data-aos="fade-up">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white text-brand-700 shadow-soft">Why users love it</span>
+        <h2 class="mt-4 font-display text-4xl lg:text-5xl font-extrabold leading-tight">Loved by patients<br>and providers worldwide.</h2>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-12">
+        <div class="text-center" data-aos="fade-up" data-aos-delay="0">
+          <div class="text-5xl lg:text-6xl font-display font-extrabold gradient-text counter" data-target="50000" data-suffix="+">0</div>
+          <div class="mt-2 text-sm font-medium text-ink-500 uppercase tracking-wider">Active users</div>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-5xl lg:text-6xl font-display font-extrabold gradient-text counter" data-target="200000" data-suffix="+">0</div>
+          <div class="mt-2 text-sm font-medium text-ink-500 uppercase tracking-wider">Appointments</div>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-5xl lg:text-6xl font-display font-extrabold gradient-text counter" data-target="98" data-suffix="%">0</div>
+          <div class="mt-2 text-sm font-medium text-ink-500 uppercase tracking-wider">Satisfaction</div>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+          <div class="text-5xl lg:text-6xl font-display font-extrabold gradient-text counter" data-target="12" data-suffix="hrs">0</div>
+          <div class="mt-2 text-sm font-medium text-ink-500 uppercase tracking-wider">Saved per week</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── Security & Trust ──────── -->
+  <section id="trust" class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+      <div data-aos="fade-right">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-mint-50 text-mint-600">Security & Trust</span>
+        <h2 class="mt-4 font-display text-4xl lg:text-5xl font-extrabold leading-tight">
+          Your health data,<br>locked down by design.
+        </h2>
+        <p class="mt-5 text-lg text-ink-500 leading-relaxed">
+          We treat your records the way they deserve — with end-to-end encryption, strict access controls, and audit logs on every action.
+        </p>
+
+        <ul class="mt-8 space-y-4">
+          <li class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full bg-mint-50 grid place-items-center text-mint-600 shrink-0 mt-0.5 font-bold">✓</span>
+            <div>
+              <strong>HIPAA-aligned infrastructure</strong>
+              <p class="text-ink-500 text-sm">Designed and audited to meet international healthcare data standards.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full bg-mint-50 grid place-items-center text-mint-600 shrink-0 mt-0.5 font-bold">✓</span>
+            <div>
+              <strong>End-to-end encryption</strong>
+              <p class="text-ink-500 text-sm">All chat, records, and prescriptions encrypted in transit and at rest.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full bg-mint-50 grid place-items-center text-mint-600 shrink-0 mt-0.5 font-bold">✓</span>
+            <div>
+              <strong>Role-based access controls</strong>
+              <p class="text-ink-500 text-sm">Doctors, labs, and pharmacies see only what they need — never more.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full bg-mint-50 grid place-items-center text-mint-600 shrink-0 mt-0.5 font-bold">✓</span>
+            <div>
+              <strong>Full audit logs</strong>
+              <p class="text-ink-500 text-sm">Every login, view, and update tracked — for total transparency.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="relative" data-aos="fade-left">
+        <div class="aspect-square max-w-md mx-auto relative">
+          <div class="absolute inset-0 rounded-[2rem]" style="background: linear-gradient(135deg, #DCFCE7 0%, #D1FAE5 100%);"></div>
+          <div class="absolute inset-6 rounded-[1.75rem] bg-white shadow-2xl border border-slate-100 p-8 grid place-items-center">
+            <div class="text-center">
+              <div class="relative w-32 h-32 mx-auto">
+                <div class="absolute inset-0 rounded-full pulse-ring" style="background: linear-gradient(135deg, #16A34A, #10B981);"></div>
+                <div class="absolute inset-2 rounded-full bg-white grid place-items-center text-brand-600">
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+                </div>
+              </div>
+              <div class="mt-6 font-display text-2xl font-extrabold">256-bit AES</div>
+              <div class="mt-1 text-ink-500">Encryption standard</div>
+              <div class="mt-6 grid grid-cols-3 gap-2 text-xs">
+                <span class="px-2 py-1.5 rounded-lg bg-brand-50 text-brand-700 font-bold">HIPAA</span>
+                <span class="px-2 py-1.5 rounded-lg bg-mint-50 text-mint-600 font-bold">GDPR</span>
+                <span class="px-2 py-1.5 rounded-lg bg-amber-50 text-amber-700 font-bold">SOC 2</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── Testimonials ──────── -->
+  <section id="testimonials" class="py-24 lg:py-32 bg-slate-50/50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-50 text-brand-700">Reviews</span>
+        <h2 class="mt-4 font-display text-4xl lg:text-5xl font-extrabold leading-tight">
+          What our users<br>are saying.
+        </h2>
+      </div>
+
+      <div class="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="rounded-3xl bg-white p-8 border border-slate-100 shadow-soft hover:shadow-glow transition" data-aos="fade-up">
+          <div class="flex gap-0.5 text-amber-400 text-lg">★★★★★</div>
+          <p class="mt-4 text-ink-700 leading-relaxed">"Booked a home visit at 8 AM. Doctor arrived by 11. Lab results uploaded the same day. This is what healthcare should feel like."</p>
+          <div class="mt-6 flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full grid place-items-center text-white font-bold"
+                 style="background: linear-gradient(135deg, #16A34A, #10B981);">AM</div>
+            <div>
+              <div class="font-bold">Medjahed Med</div>
+              <div class="text-sm text-ink-400">Patient · Paris</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-3xl bg-white p-8 border border-slate-100 shadow-soft hover:shadow-glow transition" data-aos="fade-up" data-aos-delay="100">
+          <div class="flex gap-0.5 text-amber-400 text-lg">★★★★★</div>
+          <p class="mt-4 text-ink-700 leading-relaxed">"My queue management used to be a spreadsheet nightmare. HEALTHAPP gives me a beautiful dashboard, real-time messaging, and the patient context I need."</p>
+          <div class="mt-6 flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full grid place-items-center text-white font-bold"
+                 style="background: linear-gradient(135deg, #10B981, #16A34A);">JS</div>
+            <div>
+              <div class="font-bold">Dr. Bedjaoui Chakib</div>
+              <div class="text-sm text-ink-400">Cardiologist · 15 yrs</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-3xl bg-white p-8 border border-slate-100 shadow-soft hover:shadow-glow transition" data-aos="fade-up" data-aos-delay="200">
+          <div class="flex gap-0.5 text-amber-400 text-lg">★★★★★</div>
+          <p class="mt-4 text-ink-700 leading-relaxed">"The medication reminder system literally changed my mom's life. She never misses a dose, and I get peace of mind."</p>
+          <div class="mt-6 flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full grid place-items-center text-white font-bold"
+                 style="background: linear-gradient(135deg, #166534, #34D399);">CD</div>
+            <div>
+              <div class="font-bold">Claire Dubois</div>
+              <div class="text-sm text-ink-400">Patient · Marseille</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── FAQ ──────── -->
+  <section id="faq" class="py-24 lg:py-32">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <div class="text-center" data-aos="fade-up">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-50 text-brand-700">FAQ</span>
+        <h2 class="mt-4 font-display text-4xl lg:text-5xl font-extrabold leading-tight">Answers to common questions.</h2>
+        <p class="mt-4 text-lg text-ink-500">Still wondering? Reach out — we usually reply within an hour.</p>
+      </div>
+
+      <div class="mt-12 space-y-3" data-aos="fade-up" data-aos-delay="100">
+        <details class="faq group rounded-2xl bg-white border border-slate-100 shadow-soft overflow-hidden">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 font-semibold text-ink-900">
+            <span>Is HEALTHAPP free to use?</span>
+            <span class="faq-icon w-8 h-8 rounded-full bg-brand-50 text-brand-600 grid place-items-center transition-transform">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="px-6 pb-6 text-ink-500 leading-relaxed">Yes — patients can register and book services for free. Providers (doctors, labs, pharmacies) get the dashboard at no cost during the launch phase.</div>
+        </details>
+
+        <details class="faq group rounded-2xl bg-white border border-slate-100 shadow-soft overflow-hidden">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 font-semibold text-ink-900">
+            <span>How is my medical data protected?</span>
+            <span class="faq-icon w-8 h-8 rounded-full bg-brand-50 text-brand-600 grid place-items-center transition-transform">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="px-6 pb-6 text-ink-500 leading-relaxed">All data is encrypted in transit (TLS 1.3) and at rest (AES-256). Access is role-based and every action is logged. We follow HIPAA-aligned and GDPR-compatible practices.</div>
+        </details>
+
+        <details class="faq group rounded-2xl bg-white border border-slate-100 shadow-soft overflow-hidden">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 font-semibold text-ink-900">
+            <span>How quickly can I book a doctor or lab visit?</span>
+            <span class="faq-icon w-8 h-8 rounded-full bg-brand-50 text-brand-600 grid place-items-center transition-transform">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="px-6 pb-6 text-ink-500 leading-relaxed">Most home visits are confirmed in under 15 minutes and fulfilled the same day. You'll see live ETA tracking once a provider accepts your request.</div>
+        </details>
+
+        <details class="faq group rounded-2xl bg-white border border-slate-100 shadow-soft overflow-hidden">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 font-semibold text-ink-900">
+            <span>Can I use HEALTHAPP as a doctor, lab, or pharmacy?</span>
+            <span class="faq-icon w-8 h-8 rounded-full bg-brand-50 text-brand-600 grid place-items-center transition-transform">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="px-6 pb-6 text-ink-500 leading-relaxed">Absolutely. Register with your professional role — once verified by our admin team, you'll get a dedicated dashboard tailored to your workflow.</div>
+        </details>
+
+        <details class="faq group rounded-2xl bg-white border border-slate-100 shadow-soft overflow-hidden">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 font-semibold text-ink-900">
+            <span>Does it work on mobile?</span>
+            <span class="faq-icon w-8 h-8 rounded-full bg-brand-50 text-brand-600 grid place-items-center transition-transform">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="px-6 pb-6 text-ink-500 leading-relaxed">Yes — HEALTHAPP is fully responsive and works on every modern phone, tablet, and desktop browser. Native apps are coming soon.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── Project Team ──────── -->
+  <section id="team" class="py-24 lg:py-32 bg-slate-50/50 relative overflow-hidden">
+    <div class="absolute inset-0 grid-pattern opacity-25 pointer-events-none"></div>
+    <div class="blob bg-brand-100" style="width:260px;height:260px;top:-80px;right:-60px;opacity:.35;"></div>
+    <div class="blob bg-mint-100" style="width:220px;height:220px;bottom:-60px;left:-50px;opacity:.3;animation-delay:-8s;"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+      <!-- Section header -->
+      <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-50 text-brand-700">Project Team</span>
+        <h2 class="mt-4 font-display text-4xl lg:text-5xl font-extrabold leading-tight">
+          The people who built<br><span class="gradient-text">HEALTHAPP.</span>
+        </h2>
+        <p class="mt-4 text-lg text-ink-500">
+          A passionate team combining healthcare expertise and modern engineering to reimagine how care is delivered.
+        </p>
+      </div>
+
+      <!-- Team cards grid -->
+      <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Member 1 -->
+        <div class="team-card rounded-3xl bg-white border border-slate-100 shadow-soft overflow-hidden"
+             data-aos="fade-up" data-aos-delay="0">
+          <!-- Avatar area -->
+          <div class="relative bg-gradient-to-br from-brand-50 to-mint-50 pt-8 pb-4 px-6 flex flex-col items-center">
+            <div class="relative">
+              <img src="{% static 'img/team/amir.jpg' %}"
+                   alt="Raffar El amir Abdelkader"
+                   class="team-avatar w-28 h-28 rounded-2xl object-cover shadow-glow ring-4 ring-white">
+              <!-- Role badge -->
+              <span class="team-role-badge absolute -bottom-3 -right-3 w-9 h-9 rounded-xl grid place-items-center text-white shadow-glow">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2l2.5 6.5L21 11l-5 4.5L17.5 22 12 18.5 6.5 22 8 15.5 3 11l6.5-2.5z"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <!-- Info -->
+          <div class="px-6 py-5 text-center">
+            <span class="inline-block text-[11px] font-bold uppercase tracking-widest text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full">Main Supervisor</span>
+            <h3 class="mt-3 font-display font-extrabold text-lg leading-snug">Dr Raffar El Amir Abdelkader</h3>
+            <p class="mt-1 text-sm text-ink-400 font-medium">Supervisor Professor (Main Supervisor), Project Developer and Programmer</p>
+            <p class="mt-3 text-xs text-ink-500 leading-relaxed">Cyber Security, Big Data & Deep Learning, Management, and overall system design. Keeps the team on track and the codebase clean.</p>
+            <!-- Skills -->
+            <div class="mt-4 flex flex-wrap gap-1.5 justify-center">
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">Spring</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">C++ - Python</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="team-card rounded-3xl bg-white border border-slate-100 shadow-soft overflow-hidden"
+             data-aos="fade-up" data-aos-delay="100">
+          <div class="relative bg-gradient-to-br from-mint-50 to-brand-50 pt-8 pb-4 px-6 flex flex-col items-center">
+            <div class="relative">
+              <img src="{% static 'img/team/djemil.jpg' %}"
+                   alt="Bilal Karimi"
+                   class="team-avatar w-28 h-28 rounded-2xl object-cover shadow-mint ring-4 ring-white">
+              <span class="team-role-badge absolute -bottom-3 -right-3 w-9 h-9 rounded-xl grid place-items-center text-white shadow-glow">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 17l6-6-6-6M12 19h8"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div class="px-6 py-5 text-center">
+            <span class="inline-block text-[11px] font-bold uppercase tracking-widest text-mint-600 bg-mint-50 px-2.5 py-1 rounded-full">Second Supervisor</span>
+            <h3 class="mt-3 font-display font-extrabold text-lg leading-snug">Pr Djemmil Abdeldjalil</h3>
+            <p class="mt-1 text-sm text-ink-400 font-medium">Supervisor Professor (Second Supervisor)</p>
+            <p class="mt-3 text-xs text-ink-500 leading-relaxed">REST APIs, WebSocket channels, and server-side logic. Ensures every request is fast, secure, and reliable.</p>
+            <div class="mt-4 flex flex-wrap gap-1.5 justify-center">
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">DRF</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">Channels</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">Redis</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="team-card rounded-3xl bg-white border border-slate-100 shadow-soft overflow-hidden"
+             data-aos="fade-up" data-aos-delay="200">
+          <div class="relative bg-gradient-to-br from-brand-50 to-mint-50 pt-8 pb-4 px-6 flex flex-col items-center">
+            <div class="relative">
+              <img src="{% static 'img/team/member-3.svg' %}"
+                   alt="Sara Mansouri"
+                   class="team-avatar w-28 h-28 rounded-2xl object-cover shadow-glow ring-4 ring-white">
+              <span class="team-role-badge absolute -bottom-3 -right-3 w-9 h-9 rounded-xl grid place-items-center text-white shadow-glow">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div class="px-6 py-5 text-center">
+            <span class="inline-block text-[11px] font-bold uppercase tracking-widest text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full">Student</span>
+            <h3 class="mt-3 font-display font-extrabold text-lg leading-snug">Berramdane Yousra Israa</h3>
+            <p class="mt-1 text-sm text-ink-400 font-medium">Student 01</p>
+            <p class="mt-3 text-xs text-ink-500 leading-relaxed"> Master 02 EN </p>
+            <div class="mt-4 flex flex-wrap gap-1.5 justify-center">
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">Tailwind</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">HTML/CSS</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">JS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 4 -->
+        <div class="team-card rounded-3xl bg-white border border-slate-100 shadow-soft overflow-hidden"
+             data-aos="fade-up" data-aos-delay="300">
+          <div class="relative bg-gradient-to-br from-mint-50 to-brand-50 pt-8 pb-4 px-6 flex flex-col items-center">
+            <div class="relative">
+              <img src="{% static 'img/team/member-4.svg' %}"
+                   alt="Amine Zaidi"
+                   class="team-avatar w-28 h-28 rounded-2xl object-cover shadow-mint ring-4 ring-white">
+              <span class="team-role-badge absolute -bottom-3 -right-3 w-9 h-9 rounded-xl grid place-items-center text-white shadow-glow">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div class="px-6 py-5 text-center">
+            <span class="inline-block text-[11px] font-bold uppercase tracking-widest text-mint-600 bg-mint-50 px-2.5 py-1 rounded-full">Student</span>
+            <h3 class="mt-3 font-display font-extrabold text-lg leading-snug">Benaissa Iméne</h3>
+            <p class="mt-1 text-sm text-ink-400 font-medium">Student 02 </p>
+            <p class="mt-3 text-xs text-ink-500 leading-relaxed">Mster 02 EN </p>
+            <div class="mt-4 flex flex-wrap gap-1.5 justify-center">
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">Testing</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">Security</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-ink-500 text-[10px] font-semibold">HIPAA</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── Final CTA ──────── -->
+  <section class="py-24 lg:py-32">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="relative rounded-[2rem] overflow-hidden p-12 lg:p-20 text-center text-white"
+           style="background: linear-gradient(135deg, #166534 0%, #16A34A 50%, #10B981 100%);"
+           data-aos="zoom-in">
+        <div class="absolute inset-0 grid-pattern opacity-20"></div>
+        <div class="absolute top-10 right-10 w-32 h-32 rounded-full bg-white/10 blur-2xl"></div>
+        <div class="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-mint-200/30 blur-2xl"></div>
+
+        <div class="relative">
+          <h2 class="font-display text-4xl lg:text-6xl font-extrabold leading-tight">
+            Your health, simplified.<br>Starting today.
+          </h2>
+          <p class="mt-6 max-w-2xl mx-auto text-lg lg:text-xl text-white/85">
+            Join 50,000+ patients and providers using HEALTHAPP to make care faster, safer, and easier.
+          </p>
+          <div class="mt-10 flex flex-wrap justify-center gap-3">
+            <a href="{% url 'accounts:register_select' %}"
+               class="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-brand-700 font-bold shadow-2xl hover:-translate-y-0.5 transition">
+              Register now — it's free
+              <svg class="group-hover:translate-x-1 transition-transform" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="{% url 'accounts:login' %}"
+               class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/10 backdrop-blur border border-white/30 text-white font-bold hover:bg-white/15 transition">
+              Sign in
+            </a>
+          </div>
+          <div class="mt-8 text-sm text-white/70">No credit card required · Free for life · Cancel anytime</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────── Footer ──────── -->
+  <footer class="border-t border-slate-100 bg-slate-50/50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16 grid md:grid-cols-4 gap-12">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl grid place-items-center text-white font-extrabold shadow-glow"
+               style="background: linear-gradient(135deg, #16A34A 0%, #10B981 100%);">H</div>
+          <span class="font-display font-extrabold text-lg tracking-tight">HEALTHAPP</span>
+        </div>
+        <p class="mt-4 text-ink-500 max-w-sm">Smart healthcare home services. Connecting patients, doctors, labs, and pharmacies — securely and instantly.</p>
+        <div class="mt-6 flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-full bg-white border border-slate-200 grid place-items-center text-ink-500 hover:text-brand-600 hover:border-brand-500 transition" aria-label="Twitter">𝕏</a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white border border-slate-200 grid place-items-center text-ink-500 hover:text-brand-600 hover:border-brand-500 transition" aria-label="LinkedIn">in</a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white border border-slate-200 grid place-items-center text-ink-500 hover:text-brand-600 hover:border-brand-500 transition" aria-label="Facebook">f</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-sm uppercase tracking-wider text-ink-700">Product</h4>
+        <ul class="mt-4 space-y-2 text-ink-500">
+          <li><a href="#why" class="hover:text-brand-600">Features</a></li>
+          <li><a href="#services" class="hover:text-brand-600">Services</a></li>
+          <li><a href="#how" class="hover:text-brand-600">How it works</a></li>
+          <li><a href="#trust" class="hover:text-brand-600">Security</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-sm uppercase tracking-wider text-ink-700">Company</h4>
+        <ul class="mt-4 space-y-2 text-ink-500">
+          <li><a href="#" class="hover:text-brand-600">About</a></li>
+          <li><a href="#" class="hover:text-brand-600">Careers</a></li>
+          <li><a href="#" class="hover:text-brand-600">Privacy</a></li>
+          <li><a href="#" class="hover:text-brand-600">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-slate-100">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-ink-400">
+        <div>© 2026 HEALTHAPP. Dr Raffar El Amir Abdelkader "Project Developer and Programmer".</div>
+        <div class="flex gap-6">
+          <a href="{% url 'accounts:login' %}" class="hover:text-brand-600">Sign in</a>
+          <a href="{% url 'accounts:register_select' %}" class="hover:text-brand-600">Register</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ──────── Scripts ──────── -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
+  <script src="{% static 'js/landing.js' %}" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .catch(function (err) { console.warn('[PWA] SW registration failed', err); });
+      });
+    }
+  </script>
+</body>
+</html>

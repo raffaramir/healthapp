@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard · HEALTHAPP{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Hello, <span class="gradient-text">{{ user.display_name }}</span></h1>
+    <p class="page-subtitle">Here's an overview of your healthcare activity.</p>
+  </div>
+  <a href="{% url 'services:request_select' %}" class="btn btn-primary btn-lg">+ New service request</a>
+</div>
+
+<div class="stat-grid" data-stagger>
+  <div class="stat-card">
+    <div class="icon-circle">📋</div>
+    <div class="label">Total Requests</div>
+    <div class="value">{{ total_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon-circle">⏳</div>
+    <div class="label">Open</div>
+    <div class="value">{{ open_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon-circle">✅</div>
+    <div class="label">Completed</div>
+    <div class="value">{{ completed_count }}</div>
+  </div>
+  <div class="stat-card gradient">
+    <div class="icon-circle">💊</div>
+    <div class="label">Active Medications</div>
+    <div class="value">{{ medications|length }}</div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns: 2fr 1fr;gap:20px;">
+  <div class="glass" style="padding:24px;">
+    <div class="flex justify-between items-center mb-3">
+      <h3 style="margin:0;">Recent Requests</h3>
+      <a href="{% url 'services:request_list' %}" class="text-muted" style="font-size:.85rem;">View all →</a>
+    </div>
+    {% if recent_requests %}
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Service</th><th>Title</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody>
+            {% for r in recent_requests %}
+              <tr onclick="location='{% url 'services:request_detail' r.pk %}'" style="cursor:pointer;">
+                <td>{{ r.get_service_type_display }}</td>
+                <td>{{ r.title }}</td>
+                <td><span class="badge" style="background:rgba(255,255,255,.05);color:{{ r.status_color }};border-color:{{ r.status_color }}33;"><span class="dot"></span>{{ r.get_status_display }}</span></td>
+                <td class="text-muted">{{ r.created_at|date:"M d, Y" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty">
+        <div class="ico">📭</div>
+        <h3>No requests yet</h3>
+        <p>Create your first service request to get started.</p>
+        <a class="btn btn-primary mt-2" href="{% url 'services:request_select' %}">Create a request</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="glass" style="padding:24px;">
+    <div class="flex justify-between items-center mb-3">
+      <h3 style="margin:0;">Medications</h3>
+      <a href="{% url 'patients:medication_list' %}" class="text-muted" style="font-size:.85rem;">Manage →</a>
+    </div>
+    {% if medications %}
+      <div class="flex flex-col gap-2">
+        {% for m in medications %}
+          <div style="padding:14px;border-radius:12px;background:var(--surface-strong);border:1px solid var(--border);">
+            <div class="flex justify-between items-center">
+              <strong>{{ m.medication_name }}</strong>
+              <span class="badge badge-secondary">{{ m.get_frequency_display }}</span>
+            </div>
+            <div class="text-muted" style="font-size:.82rem;margin-top:4px;">{{ m.dosage }}</div>
+            {% if m.next_dose_at %}<div class="text-accent" style="font-size:.78rem;margin-top:4px;">Next: {{ m.next_dose_at|date:"M d, H:i" }}</div>{% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <div class="ico">💊</div>
+        <p>No medications scheduled.</p>
+        <a class="btn btn-secondary btn-sm" href="{% url 'patients:medication_create' %}">+ Add medication</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

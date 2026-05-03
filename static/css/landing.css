@@ -1,0 +1,141 @@
+/* ─────────────────────────────────────────────
+   HEALTHAPP — landing page styles
+   Used by: templates/landing.html
+   Tailwind utilities still come from the CDN;
+   only custom rules live here.
+   ───────────────────────────────────────────── */
+
+html, body { font-family: 'Inter', system-ui, sans-serif; }
+h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', Inter, sans-serif; letter-spacing: -.02em; }
+
+.gradient-text {
+  background: linear-gradient(120deg, #16A34A 0%, #10B981 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.blob {
+  position: absolute; border-radius: 9999px; filter: blur(60px); opacity: .55;
+  animation: float 14s ease-in-out infinite;
+  transition: transform .3s ease-out;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(30px, -20px) scale(1.05); }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(22,163,74,.35); }
+  80%  { box-shadow: 0 0 0 18px rgba(22,163,74,0); }
+  100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+}
+.pulse-ring { animation: pulse-ring 2.4s ease-out infinite; }
+
+.ticker-item { animation: float 8s ease-in-out infinite; }
+
+.grid-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(22,163,74,.08) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+.marquee-track { animation: marquee 28s linear infinite; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.feature-card { transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px -16px rgba(22,163,74,.18);
+  border-color: rgba(22,163,74,.25);
+}
+
+.step-line { position: relative; }
+.step-line::before {
+  content: ''; position: absolute; left: 50%; top: 60px; width: 2px; height: calc(100% - 60px);
+  background: linear-gradient(180deg, #16A34A 0%, #10B981 100%); opacity: .2; z-index: 0;
+}
+@media (min-width: 768px) {
+  .step-line::before {
+    left: 16.66%; top: 40px; width: 66.66%; height: 2px;
+    background: linear-gradient(90deg, #16A34A 0%, #10B981 100%);
+  }
+}
+
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
+  background: linear-gradient(90deg, #16A34A, #10B981);
+  transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
+}
+.nav-link:hover::after { transform: scaleX(1); }
+
+[data-aos] { will-change: transform, opacity; }
+
+.bg-fade-mask {
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* FAQ accordion */
+.faq summary::-webkit-details-marker { display: none; }
+.faq[open] .faq-icon { transform: rotate(180deg); background: #DCFCE7; }
+.faq summary:hover { background: rgba(22,163,74,.02); }
+.faq[open] > summary { border-bottom: 1px solid #F1F5F9; }
+
+/* Team cards */
+.team-card {
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 52px -14px rgba(22,163,74,.22);
+  border-color: rgba(22,163,74,.28);
+}
+.team-card:hover .team-avatar {
+  transform: scale(1.04);
+}
+.team-avatar {
+  transition: transform .35s ease;
+}
+.team-role-badge {
+  background: linear-gradient(135deg, #16A34A 0%, #10B981 100%);
+}
+.team-card:hover .team-role-badge {
+  background: linear-gradient(135deg, #14532D 0%, #16A34A 100%);
+}
+
+/* ─────────────────────────────────────────────
+   RTL (Arabic) overrides for landing page
+   Flex/grid containers auto-mirror under dir=rtl;
+   only physical absolute positions + a few utility
+   classes need explicit flips.
+   ───────────────────────────────────────────── */
+html[dir="rtl"] body { font-family: 'Cairo', 'Tajawal', 'Inter', system-ui, sans-serif; }
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4 { font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif; letter-spacing: 0; }
+
+/* Numbers/dates stay LTR-readable inside Arabic paragraphs */
+html[dir="rtl"] time, html[dir="rtl"] .ltr-num { direction: ltr; unicode-bidi: embed; display: inline-block; }
+
+/* Flip absolute-positioned decorative elements (right-* ↔ left-*). */
+html[dir="rtl"] .right-12 { right: auto; left: 3rem; }
+html[dir="rtl"] .right-10 { right: auto; left: 2.5rem; }
+html[dir="rtl"] .right-6  { right: auto; left: 1.5rem; }
+html[dir="rtl"] .right-3  { right: auto; left: .75rem; }
+html[dir="rtl"] .right-2  { right: auto; left: .5rem; }
+html[dir="rtl"] .left-10  { left: auto; right: 2.5rem; }
+html[dir="rtl"] .left-6   { left: auto; right: 1.5rem; }
+
+/* Padding flips on a few utility classes used in the hero card. */
+html[dir="rtl"] .pr-12 { padding-right: 0; padding-left: 3rem; }
+
+/* Mirror the arrow icons (→ should point ← in RTL). */
+html[dir="rtl"] a > svg[stroke="currentColor"]:not([class*="rotate"]) { transform: scaleX(-1); }
+
+/* The decorative blobs sit at top-left / bottom-right; swap them too. */
+html[dir="rtl"] .blob[style*="left:"] { left: auto !important; right: 0; }
+html[dir="rtl"] .blob[style*="right:"] { right: auto !important; left: 0; }

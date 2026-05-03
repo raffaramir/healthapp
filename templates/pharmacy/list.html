@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Pharmacies{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Pharmacies</h1>
+    <p class="page-subtitle">Order medicines and get them delivered to your door.</p>
+  </div>
+</div>
+
+<div class="service-grid" data-stagger>
+  {% for p in pharmacies %}
+    <a href="{% url 'pharmacy:detail' p.pk %}" class="service-card alt2">
+      <div class="ico">💊</div>
+      <h3>{{ p.pharmacy_name }}</h3>
+      <p>{{ p.user.display_name }}</p>
+      <div class="flex gap-2 mt-2" style="flex-wrap:wrap;">
+        {% if p.is_open %}
+          <span class="badge badge-success"><span class="dot"></span>Open now</span>
+        {% else %}
+          <span class="badge badge-warning"><span class="dot"></span>Closed</span>
+        {% endif %}
+        {% if p.rating_count %}
+          <span class="badge badge-secondary">★ {{ p.rating_avg }}</span>
+        {% endif %}
+      </div>
+      {% if p.delivery_fee %}
+        <div class="text-accent mt-2" style="font-weight:700;">${{ p.delivery_fee }} delivery</div>
+      {% else %}
+        <div class="text-accent mt-2" style="font-weight:700;">Free delivery</div>
+      {% endif %}
+      <span class="arrow">→</span>
+    </a>
+  {% empty %}
+    <div class="empty" style="grid-column:1/-1;">
+      <div class="ico">💊</div>
+      <h3>No pharmacies available</h3>
+      <p>Check back soon — pharmacies are joining the platform.</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

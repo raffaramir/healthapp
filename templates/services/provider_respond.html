@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Update request{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <a href="{% url 'services:request_detail' sr.pk %}" class="text-muted" style="font-size:.85rem;">← Back</a>
+    <h1 class="page-title mt-1">Update request</h1>
+  </div>
+</div>
+<div class="glass" style="padding:32px;max-width:680px;">
+  <form method="post">{% csrf_token %}
+    {% for field in form %}
+      <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+      </div>
+    {% endfor %}
+    <button class="btn btn-primary">Save</button>
+  </form>
+</div>
+{% endblock %}

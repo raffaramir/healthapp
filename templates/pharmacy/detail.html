@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}{{ pharmacy.pharmacy_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <a href="{% url 'pharmacy:list' %}" class="text-muted" style="font-size:.85rem;">← All pharmacies</a>
+    <h1 class="page-title mt-1">{{ pharmacy.pharmacy_name }}</h1>
+    <p class="page-subtitle">{{ pharmacy.user.display_name }}</p>
+  </div>
+  <div class="flex gap-2">
+    <a href="{% url 'chat:start' pharmacy.user.pk %}" class="btn btn-secondary">💬 Message</a>
+    <a href="{% url 'services:request_create' 'pharmacy_order' %}" class="btn btn-primary">Place an order</a>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;">
+  <div class="glass" style="padding:28px;text-align:center;">
+    <div style="width:80px;height:80px;border-radius:20px;background:var(--gradient-primary);color:#FFFFFF;display:grid;place-items:center;font-size:36px;margin:0 auto 16px;box-shadow:var(--glow-primary);">💊</div>
+    <h2>{{ pharmacy.pharmacy_name }}</h2>
+    <p class="text-muted">{{ pharmacy.user.display_name }}</p>
+    <span class="badge {% if pharmacy.is_open %}badge-success{% else %}badge-warning{% endif %}">
+      <span class="dot"></span>{% if pharmacy.is_open %}Open now{% else %}Closed{% endif %}
+    </span>
+    {% if pharmacy.rating_count %}
+      <div class="mt-2"><span class="badge badge-secondary">★ {{ pharmacy.rating_avg }} ({{ pharmacy.rating_count }} reviews)</span></div>
+    {% endif %}
+    <div class="divider"></div>
+    <div class="text-muted" style="font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;">Delivery fee</div>
+    <div class="gradient-text" style="font-size:1.6rem;font-weight:800;">{% if pharmacy.delivery_fee %}${{ pharmacy.delivery_fee }}{% else %}Free{% endif %}</div>
+  </div>
+
+  <div class="glass" style="padding:24px;">
+    <h3>Available products</h3>
+    {% if products %}
+      <div style="display:grid;gap:10px;margin-top:14px;">
+        {% for p in products %}
+          <div style="padding:14px;border-radius:12px;background:var(--surface-strong);border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;">
+            <div>
+              <strong>{{ p.name }}</strong>
+              {% if p.requires_prescription %}<span class="badge badge-warning" style="margin-left:8px;">Rx</span>{% endif %}
+              {% if p.description %}<div class="text-muted" style="font-size:.82rem;margin-top:3px;">{{ p.description|truncatechars:80 }}</div>{% endif %}
+            </div>
+            <div class="text-accent" style="font-weight:800;white-space:nowrap;">${{ p.price }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty mt-3">
+        <div class="ico">📦</div>
+        <p>No products listed yet. Place an order to inquire.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

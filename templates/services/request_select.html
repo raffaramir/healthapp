@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Request a service{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Request a service</h1>
+    <p class="page-subtitle">Choose what you need — we'll connect you to a verified professional.</p>
+  </div>
+</div>
+
+<div class="service-grid" data-stagger>
+  <a href="{% url 'services:request_create' 'doctor_home' %}" class="service-card">
+    <div class="ico">👨‍⚕️</div>
+    <h3>Doctor at home</h3>
+    <p>A licensed doctor visits you for consultation or examination.</p>
+    <span class="arrow">→</span>
+  </a>
+  <a href="{% url 'services:request_create' 'lab_home' %}" class="service-card alt">
+    <div class="ico">🧪</div>
+    <h3>Lab tech at home</h3>
+    <p>Blood tests and sample collection done at home — results delivered digitally.</p>
+    <span class="arrow">→</span>
+  </a>
+  <a href="{% url 'services:request_create' 'pharmacy_order' %}" class="service-card alt2">
+    <div class="ico">💊</div>
+    <h3>Pharmacy order</h3>
+    <p>Upload your prescription and get medicines delivered.</p>
+    <span class="arrow">→</span>
+  </a>
+  <a href="{% url 'services:request_create' 'consultation' %}" class="service-card alt3">
+    <div class="ico">💬</div>
+    <h3>Online consultation</h3>
+    <p>Chat with a doctor or pharmacist for advice — no appointment required.</p>
+    <span class="arrow">→</span>
+  </a>
+</div>
+{% endblock %}

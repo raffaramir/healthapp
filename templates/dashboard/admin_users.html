@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Users · Admin{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Users</h1>
+    <p class="page-subtitle">Manage platform accounts.</p>
+  </div>
+</div>
+
+<div class="glass" style="padding:18px;">
+  <form method="get" class="flex gap-2" style="flex-wrap:wrap;">
+    <input type="search" name="q" placeholder="Search name or email" value="{{ q }}" class="form-input" style="flex:1;min-width:220px;">
+    <select name="role" class="form-select" style="max-width:200px;">
+      <option value="">All roles</option>
+      {% for code, label in roles %}<option value="{{ code }}" {% if role_filter == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <select name="status" class="form-select" style="max-width:200px;">
+      <option value="">Any status</option>
+      <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+      <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
+      <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+    </select>
+    <button class="btn btn-primary">Filter</button>
+  </form>
+</div>
+
+<div class="glass">
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>User</th><th>Role</th><th>Status</th><th>Joined</th><th></th></tr></thead>
+      <tbody>
+        {% for u in users %}
+          <tr>
+            <td>
+              <div class="flex items-center gap-2">
+                <div class="avatar" style="width:36px;height:36px;font-size:14px;">
+                  {% if u.profile_image %}<img src="{{ u.profile_image.url }}">{% else %}{{ u.display_name|slice:":1"|upper }}{% endif %}
+                </div>
+                <div>
+                  <strong>{{ u.display_name }}</strong>
+                  <div class="text-muted" style="font-size:.82rem;">{{ u.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-secondary">{{ u.get_role_display }}</span></td>
+            <td>
+              {% if not u.is_active %}<span class="badge badge-danger">Rejected</span>
+              {% elif u.is_approved %}<span class="badge badge-success">Approved</span>
+              {% else %}<span class="badge badge-warning">Pending</span>{% endif %}
+            </td>
+            <td class="text-muted">{{ u.created_at|date:"M d, Y" }}</td>
+            <td class="flex gap-1" style="display:flex;">
+              {% if not u.is_approved and u.is_active %}
+                <form method="post" action="{% url 'dashboard:admin_user_action' u.pk %}">{% csrf_token %}
+                  <input type="hidden" name="action" value="approve">
+                  <button class="btn btn-accent btn-sm">Approve</button>
+                </form>
+                <form method="post" action="{% url 'dashboard:admin_user_action' u.pk %}">{% csrf_token %}
+                  <input type="hidden" name="action" value="reject">
+                  <button class="btn btn-secondary btn-sm">Reject</button>
+                </form>
+              {% elif not u.is_active %}
+                <form method="post" action="{% url 'dashboard:admin_user_action' u.pk %}">{% csrf_token %}
+                  <input type="hidden" name="action" value="reactivate">
+                  <button class="btn btn-secondary btn-sm">Reactivate</button>
+                </form>
+              {% else %}
+                <span class="text-muted" style="font-size:.82rem;">—</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="empty"><div class="ico">🔍</div>No users match your filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

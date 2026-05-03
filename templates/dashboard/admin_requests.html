@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Requests · Admin{% endblock %}
+{% block content %}
+<div class="page-header"><h1 class="page-title">All Service Requests</h1></div>
+
+<div class="glass" style="padding:18px;">
+  <form method="get" class="flex gap-2">
+    <select name="type" class="form-select" style="max-width:240px;">
+      <option value="">All types</option>
+      {% for c, l in types %}<option value="{{ c }}" {% if type == c %}selected{% endif %}>{{ l }}</option>{% endfor %}
+    </select>
+    <select name="status" class="form-select" style="max-width:200px;">
+      <option value="">Any status</option>
+      {% for c, l in statuses %}<option value="{{ c }}" {% if status == c %}selected{% endif %}>{{ l }}</option>{% endfor %}
+    </select>
+    <button class="btn btn-primary">Apply</button>
+  </form>
+</div>
+
+<div class="glass">{% include 'services/_request_table.html' with requests=requests %}</div>
+{% endblock %}

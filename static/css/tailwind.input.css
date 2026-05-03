@@ -1,0 +1,6 @@
+/* Tailwind entry — compiled to ./tailwind.css via `npm run build:css`.
+   Only utilities used in templates (scanned via tailwind.config.js content[])
+   end up in the output, so the file stays small. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

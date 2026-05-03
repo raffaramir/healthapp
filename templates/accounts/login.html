@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Sign in · HEALTHAPP{% endblock %}
+
+{% block public_content %}
+<div class="auth-shell">
+  <div class="auth-art">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="auth-art-inner">
+      <div class="flex items-center gap-2">
+        <div class="logo" style="width:42px;height:42px;border-radius:14px;background:var(--gradient-primary);display:grid;place-items:center;color:#FFFFFF;font-weight:800;font-size:20px;">H</div>
+        <strong style="font-size:1.2rem;">HEALTHAPP</strong>
+      </div>
+      <div style="margin-top:80px;">
+        <h1>Healthcare,<br><span class="gradient-text">delivered home.</span></h1>
+        <p>Doctors, lab technicians and pharmacies — all reachable from your living room. Manage your health, track medications, and consult experts in real time.</p>
+        <div class="features">
+          <div class="feature"><div class="ico">🏠</div><div><strong>At-home services</strong><div class="text-muted" style="font-size:.85rem;">Doctor visits and blood tests delivered to you.</div></div></div>
+          <div class="feature"><div class="ico">💬</div><div><strong>Live consultations</strong><div class="text-muted" style="font-size:.85rem;">Chat with verified medical professionals.</div></div></div>
+          <div class="feature"><div class="ico">⏰</div><div><strong>Smart reminders</strong><div class="text-muted" style="font-size:.85rem;">Never miss a medication again.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-form-wrap">
+    <div class="auth-form glass-strong" style="padding:42px 38px;">
+      <h2>Welcome back</h2>
+      <p class="subtitle">Sign in to your HEALTHAPP account</p>
+
+      {% include 'partials/messages.html' %}
+
+      <form method="post" novalidate>{% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="form-group">
+          <label for="id_username">Email</label>
+          {{ form.username }}
+        </div>
+        <div class="form-group">
+          <label for="id_password">Password</label>
+          {{ form.password }}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Sign in →</button>
+      </form>
+
+      <div class="auth-footer">
+        Don't have an account? <a href="{% url 'accounts:register_select' %}">Create one</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

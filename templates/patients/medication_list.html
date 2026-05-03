@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Medications{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">My Medications</h1>
+    <p class="page-subtitle">Schedule reminders so you never miss a dose.</p>
+  </div>
+  <a href="{% url 'patients:medication_create' %}" class="btn btn-primary">+ Add medication</a>
+</div>
+
+<div class="service-grid" data-stagger>
+  {% for m in medications %}
+    <div class="glass" style="padding:24px;position:relative;{% if not m.is_active %}opacity:.5;{% endif %}">
+      <div class="flex justify-between">
+        <div class="ico" style="width:46px;height:46px;border-radius:14px;background:var(--gradient-accent);color:#FFFFFF;display:grid;place-items:center;font-size:22px;box-shadow:var(--glow-accent);">💊</div>
+        <span class="badge {% if m.is_active %}badge-success{% else %}badge-warning{% endif %}">{% if m.is_active %}Active{% else %}Paused{% endif %}</span>
+      </div>
+      <h3 class="mt-2">{{ m.medication_name }}</h3>
+      <div class="text-muted">{{ m.dosage }} · {{ m.get_frequency_display }}</div>
+      {% if m.next_dose_at %}
+        <div class="text-accent mt-2" style="font-weight:600;">⏰ Next: {{ m.next_dose_at|date:"M d, H:i" }}</div>
+      {% endif %}
+      {% if m.notes %}<p class="text-muted mt-2" style="font-size:.85rem;">{{ m.notes|truncatechars:100 }}</p>{% endif %}
+      <div class="flex gap-1 mt-3">
+        <form method="post" action="{% url 'patients:medication_toggle' m.pk %}">{% csrf_token %}
+          <button class="btn btn-secondary btn-sm">{% if m.is_active %}Pause{% else %}Resume{% endif %}</button>
+        </form>
+        <form method="post" action="{% url 'patients:medication_delete' m.pk %}" onsubmit="return confirm('Delete this medication?');">{% csrf_token %}
+          <button class="btn btn-ghost btn-sm" style="color:var(--danger);">Delete</button>
+        </form>
+      </div>
+    </div>
+  {% empty %}
+    <div class="empty" style="grid-column: 1 / -1;">
+      <div class="ico">💊</div>
+      <h3>No medications yet</h3>
+      <p>Add your first medication to set up smart reminders.</p>
+      <a href="{% url 'patients:medication_create' %}" class="btn btn-primary mt-2">+ Add medication</a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

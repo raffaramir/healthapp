@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}New {{ label }} request{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <a href="{% url 'services:request_select' %}" class="text-muted" style="font-size:.85rem;">← Back to services</a>
+    <h1 class="page-title mt-1">New {{ label }} request</h1>
+    <p class="page-subtitle">Fill in the details and we'll dispatch your request.</p>
+  </div>
+</div>
+
+<div class="glass" style="padding:32px;max-width:780px;">
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="form-grid">
+      {% for field in form %}
+        <div class="form-group" style="grid-column: {% if field.field.widget.input_type == 'textarea' or 'description' in field.name or 'address' in field.name or 'prescription_text' in field.name %}1 / -1{% else %}auto{% endif %};">
+          <label>{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+          {{ field }}
+          {% if field.help_text %}<div class="form-help">{{ field.help_text }}</div>{% endif %}
+          {% for err in field.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="flex gap-2 mt-3">
+      <button type="submit" class="btn btn-primary btn-lg">Submit request →</button>
+      <a href="{% url 'services:request_select' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#060F0A">
+  <title>HEALTHAPP â€” Patient Dashboard Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/main.css">
+</head>
+<body data-authenticated="true">
+
+<div class="app-shell">
+
+  <!-- â•گâ•گâ•گ SIDEBAR â•گâ•گâ•گ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">H</div>
+      <div>
+        <div class="name">HEALTHAPP</div>
+        <div class="tag">Smart Healthcare</div>
+      </div>
+    </div>
+
+    <a class="nav-link active" href="#"><span class="icon">ًںڈ </span> Dashboard</a>
+
+    <div class="nav-section">Health Services</div>
+    <a class="nav-link" href="#"><span class="icon">â‍•</span> New Request</a>
+    <a class="nav-link" href="#"><span class="icon">ًں“‹</span> My Requests</a>
+    <a class="nav-link" href="#"><span class="icon">ًں‘¨â€چâڑ•ï¸ڈ</span> Find a Doctor</a>
+    <a class="nav-link" href="#"><span class="icon">ًں§ھ</span> Lab Services</a>
+    <a class="nav-link" href="#"><span class="icon">ًں’ٹ</span> Pharmacies</a>
+
+    <div class="nav-section">Health</div>
+    <a class="nav-link" href="#"><span class="icon">âڈ°</span> Medications</a>
+    <a class="nav-link" href="#"><span class="icon">ًں“پ</span> Medical Records</a>
+    <a class="nav-link" href="#"><span class="icon">â‌¤ï¸ڈ</span> Health Profile</a>
+
+    <div class="nav-section">Communication</div>
+    <a class="nav-link" href="#"><span class="icon">ًں’¬</span> Messages</a>
+    <a class="nav-link" href="#"><span class="icon">ًں””</span> Notifications</a>
+
+    <div class="nav-section">Account</div>
+    <a class="nav-link" href="#"><span class="icon">ًں‘¤</span> My Profile</a>
+    <a class="nav-link" href="#"><span class="icon">ًںڑھ</span> Sign out</a>
+  </aside>
+
+  <!-- â•گâ•گâ•گ MAIN â•گâ•گâ•گ -->
+  <div class="main-area">
+    <header class="topbar">
+      <div class="flex items-center gap-2">
+        <button class="icon-btn menu-toggle" data-action="toggle-sidebar">âک°</button>
+        <div class="search">
+          <span>ًں”چ</span>
+          <input type="search" placeholder="Search doctors, labs, requestsâ€¦" />
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" data-action="toggle-theme" title="Toggle theme">ًںŒ“</button>
+        <button class="icon-btn" title="Notifications">ًں””<span class="badge">3</span></button>
+        <div class="avatar">RR</div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Hello, <span class="gradient-text">Raffar Amir</span></h1>
+          <p class="page-subtitle">Here's an overview of your healthcare activity.</p>
+        </div>
+        <a href="#" class="btn btn-primary btn-lg">+ New service request</a>
+      </div>
+
+      <!-- STATS -->
+      <div class="stat-grid" data-stagger>
+        <div class="stat-card">
+          <div class="icon-circle">ًں“‹</div>
+          <div class="label">Total Requests</div>
+          <div class="value">14</div>
+          <div class="delta">â†‘ 12% vs last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon-circle">âڈ³</div>
+          <div class="label">Open</div>
+          <div class="value">3</div>
+          <div class="delta">2 awaiting acceptance</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon-circle">âœ…</div>
+          <div class="label">Completed</div>
+          <div class="value">11</div>
+          <div class="delta">All time</div>
+        </div>
+        <div class="stat-card gradient">
+          <div class="icon-circle" style="background:rgba(0,0,0,.15);border-color:rgba(0,0,0,.2);">ًں’ٹ</div>
+          <div class="label">Active Medications</div>
+          <div class="value">4</div>
+          <div class="delta">Next dose in 2h</div>
+        </div>
+      </div>
+
+      <!-- TWO-COLUMN -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;">
+
+        <div class="glass" style="padding:24px;">
+          <div class="flex justify-between items-center mb-3">
+            <h3 style="margin:0;">Recent Requests</h3>
+            <a href="#" class="text-muted" style="font-size:.85rem;">View all â†’</a>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Service</th><th>Title</th><th>Status</th><th>Date</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Doctor at home</td>
+                  <td>Fever check-up</td>
+                  <td><span class="badge" style="color:#FFB020;border-color:#FFB02055;"><span class="dot"></span>Pending</span></td>
+                  <td class="text-muted">May 1, 2026</td>
+                </tr>
+                <tr>
+                  <td>Lab technician</td>
+                  <td>Blood panel (CBC + lipid)</td>
+                  <td><span class="badge" style="color:#22C55E;border-color:#22C55E55;"><span class="dot"></span>Accepted</span></td>
+                  <td class="text-muted">Apr 30, 2026</td>
+                </tr>
+                <tr>
+                  <td>Pharmacy order</td>
+                  <td>Monthly insulin refill</td>
+                  <td><span class="badge" style="color:#16A34A;border-color:#16A34A55;"><span class="dot"></span>In progress</span></td>
+                  <td class="text-muted">Apr 29, 2026</td>
+                </tr>
+                <tr>
+                  <td>Online consultation</td>
+                  <td>Allergy follow-up</td>
+                  <td><span class="badge" style="color:#10B981;border-color:#10B98155;"><span class="dot"></span>Completed</span></td>
+                  <td class="text-muted">Apr 25, 2026</td>
+                </tr>
+                <tr>
+                  <td>Doctor at home</td>
+                  <td>Routine check-up</td>
+                  <td><span class="badge" style="color:#10B981;border-color:#10B98155;"><span class="dot"></span>Completed</span></td>
+                  <td class="text-muted">Apr 18, 2026</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass" style="padding:24px;">
+          <div class="flex justify-between items-center mb-3">
+            <h3 style="margin:0;">Medications</h3>
+            <a href="#" class="text-muted" style="font-size:.85rem;">Manage â†’</a>
+          </div>
+          <div class="flex flex-col gap-2">
+            <div style="padding:14px;border-radius:12px;background:var(--surface-strong);border:1px solid var(--border);">
+              <div class="flex justify-between items-center">
+                <strong>Memoire +</strong>
+                <span class="badge badge-secondary">Twice daily</span>
+              </div>
+              <div class="text-muted" style="font-size:.82rem;margin-top:4px;">500mg آ· with meals</div>
+              <div class="text-accent" style="font-size:.78rem;margin-top:4px;">âڈ° Next: May 1, 14:00</div>
+            </div>
+            <div style="padding:14px;border-radius:12px;background:var(--surface-strong);border:1px solid var(--border);">
+              <div class="flex justify-between items-center">
+                <strong>Atorvastatin</strong>
+                <span class="badge badge-secondary">Once daily</span>
+              </div>
+              <div class="text-muted" style="font-size:.82rem;margin-top:4px;">20mg آ· evening</div>
+              <div class="text-accent" style="font-size:.78rem;margin-top:4px;">âڈ° Next: May 1, 21:00</div>
+            </div>
+            <div style="padding:14px;border-radius:12px;background:var(--surface-strong);border:1px solid var(--border);">
+              <div class="flex justify-between items-center">
+                <strong>Vitamin D3</strong>
+                <span class="badge badge-secondary">Once daily</span>
+              </div>
+              <div class="text-muted" style="font-size:.82rem;margin-top:4px;">2000 IU</div>
+              <div class="text-accent" style="font-size:.78rem;margin-top:4px;">âڈ° Next: May 2, 08:00</div>
+            </div>
+            <div style="padding:14px;border-radius:12px;background:var(--surface-strong);border:1px solid var(--border);">
+              <div class="flex justify-between items-center">
+                <strong>Lisinopril</strong>
+                <span class="badge badge-secondary">Once daily</span>
+              </div>
+              <div class="text-muted" style="font-size:.82rem;margin-top:4px;">10mg آ· morning</div>
+              <div class="text-accent" style="font-size:.78rem;margin-top:4px;">âڈ° Next: May 2, 08:00</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../static/js/main.js"></script>
+</body>
+</html>
