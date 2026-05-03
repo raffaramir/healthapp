@@ -17,7 +17,7 @@ services:
     branch: main
     buildCommand: "bash deploy/render/build.sh"
     # Migrations run at start (idempotent) because the DB is unreachable at build time on free plan.
-    startCommand: "python manage.py migrate --noinput && daphne -b 0.0.0.0 -p $PORT healthapp.asgi:application"
+    startCommand: "python manage.py migrate --noinput && (python manage.py createsuperuser --noinput || true) && daphne -b 0.0.0.0 -p $PORT healthapp.asgi:application"
     healthCheckPath: /
     autoDeploy: true
     envVars:
@@ -27,10 +27,11 @@ services:
         value: "False"
       - key: DJANGO_SECRET_KEY
         generateValue: true
+      # Leading dot = match any subdomain of onrender.com (handles Render's auto-suffixed hostnames).
       - key: DJANGO_ALLOWED_HOSTS
-        value: "healthapp.onrender.com"
+        value: ".onrender.com"
       - key: DJANGO_CSRF_TRUSTED_ORIGINS
-        value: "https://healthapp.onrender.com"
+        value: "https://*.onrender.com"
       - key: WEB_CONCURRENCY
         value: "1"
       - key: DATABASE_URL
