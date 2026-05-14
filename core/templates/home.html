@@ -1,0 +1,639 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="manifest" href="/static/manifest.json">
+
+    
+<meta charset="UTF-8">
+<title>HealthApp</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+/* ========================= 🌿 GENERAL STYLE ========================= */
+body {
+    background: #f5f7fa;
+}
+
+/* ========================= 🌿 NAVBAR ========================= */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* ========================= 🌿 HERO SECTION ========================= */
+.hero {
+    background: linear-gradient(rgba(25,135,84,0.8), rgba(25,135,84,0.8)),
+    url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5') center/cover;
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+}
+
+/* ========================= 🌿 SERVICES CARDS ========================= */
+.service-card {
+    border: none;
+    border-radius: 15px;
+    transition: 0.3s ease-in-out;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+}
+
+.service-img {
+    height: 180px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0;
+    display: block;
+}
+
+/* ========================= 🟢 MODERN TICKER ========================= */
+.modern-ticker {
+    background: linear-gradient(135deg, #0d6efd, #198754);
+    overflow: hidden;
+    border-radius: 14px;
+    padding: 14px 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.ticker-track {
+    display: inline-block;
+    white-space: nowrap;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding-left: 100%;
+    animation: scrollTicker 12s linear infinite;
+}
+
+.ticker-track span {
+    font-size: 22px;
+    margin: 0 10px;
+    animation: flagPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollTicker {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+}
+
+@keyframes flagPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+.modern-ticker:hover .ticker-track {
+    animation-play-state: paused;
+}
+
+/* ========================= 🌿 FOOTER ========================= */
+footer {
+    margin-top: 50px;
+}
+
+/* ========================= 🌿 TEAM SECTION ========================= */
+.team-section {
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.team-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.team-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #0d6efd;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+<div class="container">
+
+<!-- LOGO -->
+<a class="navbar-brand fw-bold d-flex align-items-center" href="/">
+
+    <img src="{% static 'images/logo.jpg' %}" 
+         alt="Logo"
+         width="100"
+         height="100"
+         class="me-2 rounded-circle">
+
+    HealthApp
+</a>
+
+<!-- RIGHT BUTTONS -->
+<div class="ms-auto d-flex align-items-center">
+
+    <a href="/chat/" class="btn btn-primary me-2">Chat</a>
+
+    <img src="{% static 'images/phone.jpg' %}"
+         alt="Phone"
+         width="60"
+         height="60"
+         class="me-2">
+
+    <a href="/login/" class="btn btn-light text-success me-2">Login</a>
+
+    <a href="/register/" class="btn btn-warning">Register</a>
+
+</div>
+
+</div>
+</nav>
+
+<!-- ✅ 🔥 ADDED: WELCOME MESSAGE (NO OTHER CHANGES) -->
+{% if user.is_authenticated %}
+<div class="container mt-3">
+    <div class="alert alert-primary fw-bold shadow-sm overflow-hidden position-relative mb-0">
+        
+        <div class="marquee-text">
+            👋 Hello {{ user.first_name|default:user.username }} &nbsp; • &nbsp; Welcome back to HealthApp
+        </div>
+
+    </div>
+</div>
+
+<style>
+.marquee-text{
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: marqueeMove 12s linear infinite;
+    font-size: 1.1rem;
+}
+
+@keyframes marqueeMove{
+    0%{
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(-100%);
+    }
+}
+</style>
+{% endif %}
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+    <h1 class="display-4 fw-bold">Welcome to HealthApp</h1>
+    <p class="lead">Smart Healthcare Services at Your Home</p>
+    <a href="/login/" class="btn btn-warning btn-lg mt-1 text-dark fw-bold">
+        Get Started
+    </a>
+</section>
+
+<!-- ================= TICKER ================= -->
+<div class="container mt-4">
+<div class="modern-ticker mb-4">
+  <div class="ticker-track">
+    <span>🇩🇿</span>
+    Algeria HealthApp • Smart Medical Services • Home Care • Telemedicine • Pharmacy Delivery • Digital Health Innovation •
+    <span>🇩🇿</span>
+  </div>
+</div>
+</div>
+
+<!-- ================= SERVICES ================= -->
+<div class="container mt-5">
+
+<div class="row">
+
+{% for service in services %}
+
+<div class="col-md-4 mb-4">
+
+<div class="card service-card shadow">
+
+{% if service.image %}
+<img class="service-img"
+     src="{{ service.image.url }}"
+     onerror="this.src='https://images.unsplash.com/photo-1584362917165-526a968579e8?auto=format&fit=crop&w=800&q=80'">
+{% else %}
+<img class="service-img"
+     src="https://images.unsplash.com/photo-1584362917165-526a968579e8?auto=format&fit=crop&w=800&q=80">
+{% endif %}
+
+<div class="card-body text-center">
+
+<h5>{{ service.title }}</h5>
+<p>{{ service.description }}</p>
+<p class="fw-bold text-success">{{ service.price }} DA</p>
+
+<a href="/order/{{ service.id }}/" class="btn btn-success w-100">
+Request Service
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+</div>
+
+<div class="info-wrapper">
+
+    <div class="info-box">
+        🚀 HealthApp is a smart digital healthcare platform designed to connect patients with medical services easily and quickly.
+        We provide online consultations, home care services, pharmacy delivery, and emergency support using modern technology
+        to improve the quality of healthcare and save time.
+        <br>
+        <span class="green-text">
+            Combining technology, innovation, and academic excellence.
+        </span>
+    </div>
+
+    <div class="info-box">
+        🚀 HealthApp is a smart digital healthcare platform designed to connect patients with medical services easily and quickly.
+        We provide online consultations, home care services, pharmacy delivery, and emergency support using modern technology
+        to improve the quality of healthcare and save time.
+        <br>
+        <span class="green-text">
+            Combining technology, innovation, and academic excellence.
+        </span>
+    </div>
+
+</div>
+
+<style>
+.info-wrapper{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.info-box{
+    width: 48%;
+    min-width: 320px;
+    padding: 18px 25px;
+    background: linear-gradient(135deg, rgba(13,110,253,0.1), rgba(25,135,84,0.1));
+    border: 1px solid rgba(13,110,253,0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    color: #0d6efd;
+    font-weight: 500;
+    font-size: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.green-text{
+    color:#198754;
+    font-weight:600;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+</div>
+
+<div class="info-wrapper">
+
+    <div class="info-box">
+        🚀 HealthApp is a smart digital healthcare platform designed to connect patients with medical services easily and quickly.
+        We provide online consultations, home care services, pharmacy delivery, and emergency support using modern technology
+        to improve the quality of healthcare and save time.
+        <br>
+        <span class="green-text">
+            Combining technology, innovation, and academic excellence.
+        </span>
+    </div>
+
+    <div class="info-box">
+        🚀 HealthApp is a smart digital healthcare platform designed to connect patients with medical services easily and quickly.
+        We provide online consultations, home care services, pharmacy delivery, and emergency support using modern technology
+        to improve the quality of healthcare and save time.
+        <br>
+        <span class="green-text">
+            Combining technology, innovation, and academic excellence.
+        </span>
+    </div>
+
+</div>
+
+<style>
+.info-wrapper{
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.info-box{
+    width: 48%;
+    min-width: 320px;
+    padding: 22px 28px;
+    background: linear-gradient(135deg, rgba(13,110,253,0.12), rgba(25,135,84,0.12));
+    border: 1px solid rgba(13,110,253,0.18);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    color: #0d6efd;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.7;
+
+    /* ظل احترافي */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+
+    /* حركة سلسة */
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+/* عند مرور الفأرة */
+.info-box:hover{
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(13,110,253,0.18);
+    border-color: rgba(25,135,84,0.35);
+}
+
+/* حركة خفيفة للنص */
+.info-box:hover .green-text{
+    letter-spacing: 1px;
+}
+
+.green-text{
+    color:#198754;
+    font-weight:700;
+    transition: all 0.4s ease;
+}
+
+/* الهاتف */
+@media(max-width:768px){
+    .info-box{
+        width: 100%;
+    }
+}
+</style>
+
+
+
+
+
+
+</div>
+
+</div>
+
+<div class="info-wrapper">
+
+    <div class="info-box">
+        🚀 HealthApp is a smart digital healthcare platform designed to connect patients with medical services easily and quickly.
+        We provide online consultations, home care services, pharmacy delivery, and emergency support using modern technology
+        to improve the quality of healthcare and save time.
+        <br>
+        <span class="green-text">
+            Combining technology, innovation, and academic excellence.
+        </span>
+    </div>
+
+    <div class="info-box">
+        🚀 HealthApp is a smart digital healthcare platform designed to connect patients with medical services easily and quickly.
+        We provide online consultations, home care services, pharmacy delivery, and emergency support using modern technology
+        to improve the quality of healthcare and save time.
+        <br>
+        <span class="green-text">
+            Combining technology, innovation, and academic excellence.
+        </span>
+    </div>
+
+</div>
+
+<style>
+.info-wrapper{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.info-box{
+    width: 48%;
+    min-width: 320px;
+    padding: 18px 25px;
+    background: linear-gradient(135deg, rgba(13,110,253,0.1), rgba(25,135,84,0.1));
+    border: 1px solid rgba(13,110,253,0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    color: #0d6efd;
+    font-weight: 500;
+    font-size: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.green-text{
+    color:#198754;
+    font-weight:600;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ================= TEAM ================= -->
+<div class="container team-section">
+
+<div style="text-align:center; margin:40px 0;">
+    <div class="team-title-box">
+        Team of the Project
+        <div class="team-subtitle">
+            HealthApp Academic Team • 2026
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+<div class="team-card">
+<img src="https://i.pravatar.cc/100?img=47" class="team-img">
+<div><strong class="text-primary">Student 1: Yousra israa Berramdane </strong></div>
+</div>
+</div>
+
+<div class="col-md-6 mb-3">
+<div class="team-card">
+<img src="https://i.pravatar.cc/100?img=32" class="team-img">
+<div><strong class="text-primary">Student 2: Iméne Benaissa</strong></div>
+</div>
+</div>
+
+<div class="col-md-6 mb-3">
+<div class="team-card">
+<img src="{% static 'images/amir.jpg' %}" class="team-img">
+<div>
+<strong class="text-primary">Dr. Raffar El Amir Abdelkader</strong><br>
+<small class="text-muted">Senior supervisor, developer & programmer</small>
+</div>
+</div>
+</div>
+
+<div class="col-md-6 mb-3">
+<div class="team-card">
+<img src="{% static 'images/djemil.jpg' %}" class="team-img">
+<div>
+<strong class="text-primary">Dr. Djamel Abdeljalil</strong><br>
+<small class="text-muted">Second supervisor</small>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-success text-white text-center p-3">
+© 2026 HealthApp - Smart Healthcare Platform
+</footer>
+
+<footer class="bg-success text-white text-center p-3">
+© 2026 HealthApp - Tel: +213 661822299
+</footer>
+
+<style>
+/* عنوان الفريق */
+.team-title-box{
+    display:inline-block;
+    padding:18px 35px;
+    background: linear-gradient(135deg, #0d6efd, #198754);
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+    border-radius:15px;
+    box-shadow:0 12px 28px rgba(0,0,0,0.18);
+    transition: all 0.4s ease;
+}
+
+.team-title-box:hover{
+    transform: translateY(-5px) scale(1.03);
+    box-shadow:0 18px 35px rgba(0,0,0,0.25);
+}
+
+.team-subtitle{
+    font-size:12px;
+    opacity:0.9;
+    margin-top:5px;
+}
+
+/* بطاقات الفريق */
+.team-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:18px;
+    background:#ffffff;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    transition: all 0.4s ease;
+    cursor:pointer;
+}
+
+/* حركة عند الفأرة */
+.team-card:hover{
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:0 18px 35px rgba(13,110,253,0.18);
+}
+
+/* الصور */
+.team-img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #0d6efd;
+    transition: all 0.4s ease;
+}
+
+/* حركة الصورة */
+.team-card:hover .team-img{
+    transform: rotate(6deg) scale(1.08);
+    border-color:#198754;
+}
+
+/* الفوتر */
+footer{
+    box-shadow:0 -5px 18px rgba(0,0,0,0.08);
+}
+</style>
+
+</body>
+</html>

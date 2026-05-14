@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HealthAI Admin</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+/* ================= BACKGROUND (same AI style) ================= */
+body {
+    background: radial-gradient(circle at 20% 20%, #8b5cf6, transparent 40%),
+                radial-gradient(circle at 80% 10%, #22c55e, transparent 35%),
+                radial-gradient(circle at 50% 90%, #06b6d4, transparent 45%),
+                #0f172a;
+}
+
+/* ================= GLASS EFFECT ================= */
+.glass {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ================= CARDS ================= */
+.card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+/* ================= TABLE ================= */
+th {
+    color: #cbd5e1;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+td {
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+</style>
+
+</head>
+
+<body class="text-white">
+
+<div class="flex min-h-screen">
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="w-64 sidebar p-6">
+
+<h1 class="text-2xl font-bold mb-10 text-purple-300">
+    HealthAI
+</h1>
+
+<nav class="space-y-3 text-white/80">
+
+<a class="block px-3 py-2 rounded-lg hover:bg-white/10 transition">📊 Dashboard</a>
+<a class="block px-3 py-2 rounded-lg hover:bg-white/10 transition">👤 Users</a>
+<a class="block px-3 py-2 rounded-lg hover:bg-white/10 transition">💊 Services</a>
+<a href="/add-service/" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition">➕ Add Service</a>
+<a href="/logout/" class="block px-3 py-2 rounded-lg text-red-300 hover:bg-white/10 transition">🚪 Logout</a>
+
+</nav>
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main class="flex-1 p-8">
+
+<!-- HEADER -->
+<div class="mb-8">
+
+<h1 class="text-3xl font-bold">
+    Admin Dashboard
+</h1>
+
+<p class="text-white/60 text-sm">
+    AI Medical System Control Panel
+</p>
+
+</div>
+
+<!-- ================= STATS ================= -->
+<div class="grid md:grid-cols-3 gap-6 mb-10">
+
+<div class="card p-6">
+<p class="text-white/60 text-sm">Total Users</p>
+<h2 class="text-3xl font-bold text-purple-300">{{ users_count }}</h2>
+</div>
+
+<div class="card p-6">
+<p class="text-white/60 text-sm">Services</p>
+<h2 class="text-3xl font-bold text-green-300">0</h2>
+</div>
+
+<div class="card p-6">
+<p class="text-white/60 text-sm">Orders</p>
+<h2 class="text-3xl font-bold text-cyan-300">{{ orders|length }}</h2>
+</div>
+
+</div>
+
+<!-- ================= USERS ================= -->
+<h2 class="text-xl font-bold mb-3">Users</h2>
+
+<div class="glass p-4 rounded-2xl overflow-x-auto mb-10">
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Username</th>
+<th>Email</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for user in users %}
+<tr>
+<td>{{ user.id }}</td>
+<td>{{ user.username }}</td>
+<td>{{ user.email }}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ================= ORDERS ================= -->
+<h2 class="text-xl font-bold mb-3">Orders</h2>
+
+<div class="glass p-4 rounded-2xl overflow-x-auto">
+
+<table>
+
+<thead>
+<tr>
+<th>User</th>
+<th>Service</th>
+<th>Phone</th>
+<th>Address</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for order in orders %}
+<tr>
+<td>{{ order.user.username }}</td>
+<td>{{ order.service.title }}</td>
+<td>{{ order.phone }}</td>
+<td>{{ order.address }}</td>
+<td class="text-cyan-300 font-semibold">{{ order.status }}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</main>
+
+</div>
+
+</body>
+</html>

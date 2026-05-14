@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HealthAI Register</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+/* ================= BACKGROUND ================= */
+body {
+    background: radial-gradient(circle at 20% 20%, #8b5cf6, transparent 40%),
+                radial-gradient(circle at 80% 10%, #22c55e, transparent 35%),
+                radial-gradient(circle at 50% 90%, #06b6d4, transparent 45%),
+                #0f172a;
+    overflow: hidden;
+}
+
+/* floating blobs */
+.blob {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    filter: blur(90px);
+    opacity: 0.5;
+    animation: float 8s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-40px); }
+}
+
+/* glass card */
+.glass {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+</style>
+
+</head>
+
+<body class="flex items-center justify-center h-screen text-white">
+
+<!-- BACKGROUND BLOBS -->
+<div class="blob bg-purple-500 top-10 left-10"></div>
+<div class="blob bg-green-400 bottom-10 right-10"></div>
+
+<!-- REGISTER CARD -->
+<div class="glass w-[420px] p-8 rounded-3xl z-10">
+
+<!-- HEADER -->
+<h2 class="text-3xl font-bold text-center">
+    Create Account
+</h2>
+
+<p class="text-center text-gray-300 text-sm mt-2">
+    Join HealthAI smart medical system
+</p>
+
+<!-- FORM -->
+<form method="POST" class="mt-6">
+
+{% csrf_token %}
+
+<input type="text"
+       name="username"
+       placeholder="Username"
+       class="w-full p-3 mt-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 outline-none">
+
+<input type="email"
+       name="email"
+       placeholder="Email"
+       class="w-full p-3 mt-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 outline-none">
+
+<input type="password"
+       name="password"
+       placeholder="Password"
+       class="w-full p-3 mt-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 outline-none">
+
+<button type="submit"
+        class="w-full mt-5 p-3 rounded-xl font-bold text-white
+               bg-gradient-to-r from-purple-500 to-cyan-500
+               hover:scale-105 transition">
+    Create Account
+</button>
+
+</form>
+
+<!-- FOOTER -->
+<p class="text-center text-xs text-gray-400 mt-6">
+    Already have an account?
+    <a href="/login/" class="text-cyan-400 font-bold">Login</a>
+</p>
+
+</div>
+
+</body>
+</html>

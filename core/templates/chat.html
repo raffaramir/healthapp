@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chat Doctor</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+/* خلفية الصفحة */
+body{
+    background: linear-gradient(135deg, #1CA7D5, #8B64EE);
+    min-height: 100vh;
+}
+
+/* الكارد */
+.chat-card{
+    border: none;
+    border-radius: 18px;
+    background: white;
+}
+
+/* العنوان */
+.chat-title{
+    background: linear-gradient(90deg, #1CA7D5, #8B64EE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+/* الحقول */
+.form-control{
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.form-control:focus{
+    border-color: #1CA7D5;
+    box-shadow: 0 0 0 0.2rem rgba(28,167,213,0.25);
+}
+
+/* الزر */
+.btn-send{
+    background: linear-gradient(90deg, #1CA7D5, #8B64EE);
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 12px;
+    transition: 0.3s;
+}
+
+.btn-send:hover{
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+<div class="card shadow-lg p-4 chat-card">
+
+<h3 class="text-center mb-4 chat-title">
+Contact Doctor via WhatsApp
+</h3>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="first_name" class="form-control mb-2" placeholder="First Name" required>
+
+    <input type="text" name="last_name" class="form-control mb-2" placeholder="Last Name" required>
+
+    <input type="date" name="birth_date" class="form-control mb-2" required>
+
+    <input type="text" name="birth_place" class="form-control mb-2" placeholder="Birth Place" required>
+
+    <input type="number" name="age" class="form-control mb-2" placeholder="Age" required>
+
+    <input type="text" name="phone" class="form-control mb-3" placeholder="Phone Number" required>
+
+    <button type="submit" class="btn btn-send w-100">
+        Send to WhatsApp
+    </button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>
